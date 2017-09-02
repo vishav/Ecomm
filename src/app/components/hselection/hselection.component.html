@@ -1,0 +1,81 @@
+<app-navbar [cartnumber] = "cartnumber"> </app-navbar>
+
+<div id="selectionbar" class="panel-body">
+  <h3 class="text-center">
+    World Holidays and Events
+  </h3>
+  <hr/>
+<div class="container">
+
+<div class="col-md-4">
+<div class="dropdown">
+  <button id="country" class="btn btn-primary dropdown-toggle btn-block" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="btncountry">
+    {{selectedcountry}}
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu scrollable-menu col-xs-12" aria-labelledby="dLabel">
+     <li *ngFor="let country of countries" href="#" (click)= countrySelect(country)>
+    	{{country}}
+  	</li>
+  </ul>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="dropdown">
+  <button id="state" class="btn btn-primary dropdown-toggle btn-block" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="btnstate">
+    {{selectedstate}}
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu scrollable-menu col-xs-12" aria-labelledby="dLabel">
+     <li *ngFor="let state of states" href="#" (click)= stateSelect(state)>
+    	{{state}}
+  	</li>
+  </ul>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="dropdown">
+  <button id="city" class="btn btn-primary dropdown-toggle btn-block" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="btncity">
+    {{selectedcity}}
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu scrollable-menu col-xs-12" aria-labelledby="dLabel">
+     <li *ngFor="let city of cities" href="#" (click)= citySelect(city)>
+    	{{city}}
+  	</li>
+  </ul>
+</div>
+</div>
+</div>
+
+
+<div class="row">
+  <div class="col-xs-12">
+    <form class="form-inline text-center">
+      <fieldset>
+        <div>
+          <input [(ngModel)]="yearselect" name="yearselect" id="yearselect" placeholder="Select Year (YYYY)" class="form-control" type="text" [disabled]="yearentry">
+          <button class="btn btn-primary form-control" (click)="showDate()" >Alternate time</button>
+        </div>
+        <div *ngIf="showAdvDate" class="form-group" >
+          <my-date-picker [options]="myFromDateOptions" [placeholder]="fromdateplaceholder" (dateChanged)="onFromDateChanged($event)"></my-date-picker>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <my-date-picker [options]="myToDateOptions" [placeholder]="todateplaceholder" (dateChanged)="onToDateChanged($event)"></my-date-picker>
+          <br>
+          <br>
+        </div>
+        <div>
+          <button *ngIf="datecheck()" type="submit" class="btn btn-primary form-control"  [disabled]="enablesubmit()" (click)="fetchHolidays()" >Get Holidays</button>
+          <button *ngIf="!datecheck()" type="submit" class="btn btn-primary form-control"  [disabled]="enablesubmit()" (click)="addtocart()">&nbsp;Add to Cart</button>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</div>
+
+
+</div>
+
+

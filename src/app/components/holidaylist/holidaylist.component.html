@@ -1,0 +1,51 @@
+<app-hselection
+  [country] = "this.country"
+  [state] = "this.state"
+  [city] = "this.city"
+></app-hselection>
+<div class="container" *ngIf="this.errorMessage">
+  <div class="alert alert-dismissible alert-danger">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>Oh snap!</strong> <a href="/" class="alert-link">Change a few things up</a> and try submitting again.
+  </div>
+</div>
+<div *ngIf="!this.errorMessage" class="container">
+<table class="table table-striped table-hover ">
+  <thead>
+  <tr>
+    <th>Start Date</th>
+    <th>End Date</th>
+    <th>Name</th>
+    <th>Notes</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr class="warning" *ngFor="let holiday of holidays">
+    <td>{{holiday.startDate}}</td>
+    <td>{{holiday.endDate}}</td>
+    <td>{{holiday.name}}</td>
+    <td><button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal" (click)="setholiday(holiday)">Holiday Note</button></td>
+  </tr>
+  </tbody>
+</table>
+</div>
+<div id="myModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Note</h4>
+      </div>
+      <div class="modal-body">
+        <ul>
+          <li *ngIf="this.businessesClosed">Bussinesses Closed : {{this.businessesClosed}}</li>
+          <li *ngIf="this.banksClosed">Banks Closed : {{this.banksClosed}}</li>
+          <li *ngIf="this.religiousHoliday">Religious Holiday : {{this.religiousHoliday}}</li>
+          <li *ngIf="this.religion">Religion : {{this.religion}}</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
