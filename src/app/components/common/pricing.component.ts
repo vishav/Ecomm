@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 
-import {PaymentService} from "../../services/payment.service";
+import {PaymentService} from '../../services/payment.service';
+import {Pricing} from "../../models/Pricing";
+import {Observable} from "rxjs/Observable";
 
 @Component({
   moduleId: module.id,
@@ -8,18 +10,14 @@ import {PaymentService} from "../../services/payment.service";
   templateUrl: 'pricing.component.html'
 })
 export class PricingComponent implements OnInit {
-  pricing:any=null;
+  pricing: Promise<Pricing>;
+  countryPrice: number;
 
-  constructor(private paymentservice : PaymentService){ }
+  constructor(private paymentservice : PaymentService){
+    this.pricing = this.paymentservice.getPricings();
+  }
 
   ngOnInit() {
-    this.paymentservice.getPricing().subscribe(pricing => {
-      if(pricing){
-        this.pricing = pricing;
-      }
-      console.log("the pricing object:");
-      console.log(pricing);
-    });
   }
 
 }
