@@ -3,21 +3,22 @@ import { Routes } from '@angular/router';
 import { HselectionComponent } from './components/hselection/hselection.component';
 import { HolidaylistComponent } from './components/holidaylist/holidaylist.component';
 import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from "./components/register/register.component";
+import { RegisterComponent } from './components/register/register.component';
 import { ShoppingcartComponent } from './components/shoppingcart/shoppingcart.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { AuthGuard } from './_gaurds/auth.gaurd';
 import { SuccessComponent } from './components/common/success.component';
 import { FailureComponent } from './components/common/failure.component';
 import { OrderComponent} from './components/order/order.component';
-import {LogoutComponent} from "./components/common/logout.component";
-import {InstructionsComponent} from "./components/common/instructions.component";
-import {PricingComponent} from "./components/common/pricing.component";
-import {InfoComponent} from "./components/common/info.component";
-import {PricechangerComponent} from "./components/admin/pricechanger/pricechanger.component";
+import {LogoutComponent} from './components/common/logout.component';
+import {InstructionsComponent} from './components/common/instructions.component';
+import {PricingComponent} from './components/common/pricing.component';
+import {InfoComponent} from './components/common/info.component';
+import {PricechangerComponent} from './components/admin/pricechanger/pricechanger.component';
 import {ResetpasswordComponent} from './components/admin/resetpassword/resetpassword.component';
 import {ChangepasswordComponent} from './components/admin/changepassword/changepassword.component';
 import {ResetrequestComponent} from './components/resetrequest/resetrequest.component';
+import {DashboardComponent} from './components/dashboard/dashboard.component';
 
 export const routes: Routes = [
   {
@@ -106,6 +107,10 @@ export const routes: Routes = [
   {
     path: 'resetrequest',
     component: ResetrequestComponent
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent
   }
 
 ];

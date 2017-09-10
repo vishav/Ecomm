@@ -16,15 +16,15 @@ import { LoginComponent } from './components/login/login.component';
 import { AuthenticationService } from './services/authentication.service';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RegisterComponent } from './components/register/register.component';
-import { CustomValidator } from "./equal-validator.directive";
+import { CustomValidator } from './equal-validator.directive';
 import { ShoppingcartComponent } from './components/shoppingcart/shoppingcart.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
-import {PaymentService} from "./services/payment.service";
-import {OrderService} from "./services/order.service";
+import {PaymentService} from './services/payment.service';
+import {OrderService} from './services/order.service';
 import { SuccessComponent } from './components/common/success.component';
 import { FailureComponent } from './components/common/failure.component';
 import { OrderComponent } from './components/order/order.component';
-import {LogoutComponent} from "./components/common/logout.component";
+import {LogoutComponent} from './components/common/logout.component';
 import { MyDatePickerModule } from 'mydatepicker';
 import { InstructionsComponent } from './components/common/instructions.component';
 import { PricingComponent } from './components/common/pricing.component';
@@ -34,6 +34,7 @@ import {UsersService} from './services/users.service';
 import { ResetpasswordComponent } from './components/admin/resetpassword/resetpassword.component';
 import { ChangepasswordComponent } from './components/admin/changepassword/changepassword.component';
 import { ResetrequestComponent } from './components/resetrequest/resetrequest.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 
 // Define the routes
@@ -59,7 +60,8 @@ import { ResetrequestComponent } from './components/resetrequest/resetrequest.co
     PricechangerComponent,
     ResetpasswordComponent,
     ChangepasswordComponent,
-    ResetrequestComponent
+    ResetrequestComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
