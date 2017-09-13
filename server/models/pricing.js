@@ -2,7 +2,7 @@
  * Created by jacob on 8/5/2017.
  */
 
-var mongoose = require( 'mongoose' );
+var mongoose = require('mongoose');
 
 var pricingSchema = new mongoose.Schema({
   countryPrice: Number,
@@ -11,5 +11,5 @@ var pricingSchema = new mongoose.Schema({
   minPrice: Number
 });
 
-mongoose.model("Pricing",pricingSchema);
+mongoose.model('Pricing', pricingSchema);
 

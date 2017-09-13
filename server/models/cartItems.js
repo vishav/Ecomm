@@ -1,7 +1,7 @@
 /**
  * Created by jacob on 4/6/17.
  */
-var mongoose = require( 'mongoose' );
+var mongoose = require('mongoose');
 
 /*
  export interface SearchQuery{

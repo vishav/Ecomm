@@ -7,44 +7,44 @@ var Pricing = mongoose.model('Pricing');
 
 
 
-var sendJSONresponse = function(res, status, content) {
+var sendJSONresponse = function (res, status, content) {
   res.status(status);
   res.json(content);
 };
 
-module.exports.getPricing = function(req,res){
+module.exports.getPricing = function (req,res) {
   console.log('getPricing called');
   //getAuthor(req,res, function(req, res,username) {
 
 
-    // console.log(JSON.stringify(req.body));
-    console.log(Pricing.collection.collectionName);
+  // console.log(JSON.stringify(req.body));
+  console.log(Pricing.collection.collectionName);
 
-    Pricing.findOne({}, function(error, pricings){
-      console.log("pricings: " + pricings);
-      if(error)
-        sendJSONresponse(res,404,error);
-      if(!pricings)
-        sendJSONresponse(res,200,[]);
-      else
-        sendJSONresponse(res,200,pricings);
+  Pricing.findOne({}, function (error, pricings) {
+    console.log('pricings: ' + pricings);
+    if (error)
+      sendJSONresponse(res, 404, error);
+    if (!pricings)
+      sendJSONresponse(res, 200, []);
+    else
+      sendJSONresponse(res, 200, pricings);
 
-    });
+  });
 
   //})
 };
 
 
-var getAuthor = function(req, res, callback) {
-  console.log("Finding author with email " + req.payload.email);
+var getAuthor = function (req, res, callback) {
+  console.log('Finding author with email ' + req.payload.email);
   if (req.payload.email) {
     User
       .findOne({ email : req.payload.email })
-      .exec(function(err, user) {
+      .exec(function (err, user) {
         if (!user) {
-          console.log("user not found");
+          console.log('user not found');
           sendJSONresponse(res, 404, {
-            "message": "User not found"
+            message: 'User not found'
           });
           return;
         } else if (err) {
@@ -52,13 +52,13 @@ var getAuthor = function(req, res, callback) {
           sendJSONresponse(res, 404, err);
           return;
         }
-        console.log("user found");
+        console.log('user found');
         callback(req, res, user.email);
       });
 
   } else {
     sendJSONresponse(res, 404, {
-      "message": "User not found"
+      message: 'User not found'
     });
     return;
   }

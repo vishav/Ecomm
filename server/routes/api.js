@@ -21,10 +21,10 @@ const request = require('request');
 
 // declare axios for making http requests
 const baseURL = 'http://www.worldholidaysandevents.com/HolidaysRESTJSON/webresources/holidaysandevents';
-const contriesUrl = baseURL+'/countries';
-const statesUrl = baseURL+'/countryStates/';
-const countryCitiesUrl = baseURL+'/countryCities/';
-const citiesUrl = baseURL+'/countryStateCities/';
+const contriesUrl = baseURL + '/countries';
+const statesUrl = baseURL + '/countryStates/';
+const countryCitiesUrl = baseURL + '/countryCities/';
+const citiesUrl = baseURL + '/countryStateCities/';
 
 /* GET api listing. */
 router.get('/', (req, res) => {
@@ -35,19 +35,19 @@ router.get('/countries', (req, res) => {
   request.get(
         { url: contriesUrl,
         method:'Get'
-        },
+      },
         function (error, apires, body) {
           if (error) {
-          	res.status(500).send(error);
-          	return;
+            res.status(500).send(error);
+            return;
           }
 
-            if (apires.statusCode != 200 ) {
-              res.status(apires.statusCode).send(apires.statusCode);
-              return;
-            }
+          if (apires.statusCode != 200) {
+            res.status(apires.statusCode).send(apires.statusCode);
+            return;
+          }
 
-            res.status(200).send(body);
+          res.status(200).send(body);
         }
       );
 
@@ -55,28 +55,28 @@ router.get('/countries', (req, res) => {
 
 router.get('/countryStates/:country', (req, res) => {
   request.get(
-        { url: statesUrl+req.params.country,
+        { url: statesUrl + req.params.country,
         method:'Get'
-        },
+      },
         function (error, apires, body) {
           if (error) {
             res.status(500).send(error);
             return;
           }
 
-            if (apires.statusCode != 200 ) {
-              res.status(apires.statusCode).send(apires.statusCode);
-              return;
-            }
+          if (apires.statusCode != 200) {
+            res.status(apires.statusCode).send(apires.statusCode);
+            return;
+          }
 
-            res.status(200).send(body);
+          res.status(200).send(body);
         }
       );
 });
 
 router.get('/countryCities/:country', (req, res) => {
   request.get(
-    { url: countryCitiesUrl+req.params.country,
+    { url: countryCitiesUrl + req.params.country,
       method:'Get'
     },
     function (error, apires, body) {
@@ -85,7 +85,7 @@ router.get('/countryCities/:country', (req, res) => {
         return;
       }
 
-      if (apires.statusCode != 200 ) {
+      if (apires.statusCode != 200) {
         res.status(apires.statusCode).send(apires.statusCode);
         return;
       }
@@ -97,26 +97,26 @@ router.get('/countryCities/:country', (req, res) => {
 
 router.get('/countryStateCities/:state/:country', (req, res) => {
   request.get(
-        { url: citiesUrl+ req.params.country+'/'+req.params.state,
+        { url: citiesUrl + req.params.country + '/' + req.params.state,
         method:'Get'
-        },
+      },
         function (error, apires, body) {
           if (error) {
             res.status(500).send(error);
             return;
           }
 
-            if (apires.statusCode != 200 ) {
-              res.status(apires.statusCode).send(apires.statusCode);
-              return;
-            }
+          if (apires.statusCode != 200) {
+            res.status(apires.statusCode).send(apires.statusCode);
+            return;
+          }
 
-            res.status(200).send(body);
+          res.status(200).send(body);
         }
       );
 });
 router.get('/currentyear', (req, res) =>{
-  var year = { 'year' : new Date().getFullYear()};
+  var year = { year : new Date().getFullYear() };
   res.status(200).send(year);
 });
 //added auth to secure the holidays
@@ -125,13 +125,13 @@ router.get('/holidays/:country/:state/:city/:fromyear/:frommonth/:fromday/:toyea
 
 router.get('/freeholidays/:country/:state/:city/:fromyear/:frommonth/:fromday/:toyear/:tomonth/:today', ctrlHoliday.findfreeholidays);
 
-router.post('/shoppingcart',auth, ctrlShoppingCart.saveCart);
+router.post('/shoppingcart', auth, ctrlShoppingCart.saveCart);
 router.get('/shoppingcart/:useremail', auth, ctrlShoppingCart.getShoppingCart);
 
-router.post('/register',ctrlAuth.register);
-router.post('/login',ctrlAuth.login);
+router.post('/register', ctrlAuth.register);
+router.post('/login', ctrlAuth.login);
 
-router.post('/create',paypal.create);
+router.post('/create', paypal.create);
 
 router.post('/orders', auth, orders.saveOrder);
 
@@ -143,10 +143,11 @@ router.get('/pricing/', pricing.getPricing);
 
 router.get('/users/', auth, ctrlUsers.getUsers);
 
-router.post('/resetpassword',ctrlUsers.resetPassword);
+router.post('/resetpassword', ctrlUsers.resetPassword);
 
-router.get('/uuiduser/:requesteduuid',ctrlUsers.getUserByUUID);
+router.get('/uuiduser/:requesteduuid', ctrlUsers.getUserByUUID);
 
 
-router.post('/changepassword',ctrlUsers.changePassword);
+router.post('/changepassword', ctrlUsers.changePassword);
+
 module.exports = router;

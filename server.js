@@ -17,10 +17,10 @@ var paypal = require('./server/controllers/payment');
 
 
 try {
-  var configJSON = fs.readFileSync(__dirname + "/config.json");
+  var configJSON = fs.readFileSync(__dirname + '/config.json');
   var config = JSON.parse(configJSON.toString());
 } catch (e) {
-  console.error("File config.json not found or is invalid: " + e.message);
+  console.error('File config.json not found or is invalid: ' + e.message);
   process.exit(1);
 }
 paypal.init(config);
@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'dist')));
 
 //Set static folder
-app.use(express.static(path.join(__dirname,'src')));
+app.use(express.static(path.join(__dirname, 'src')));
 
 //Initialize passport after static pages but before the routes
 //that are going to use authentication
@@ -60,7 +60,7 @@ app.set('port', port);
 app.use(function (err, req, res, next) {
   if (err.name === 'UnauthorizedError') {
     res.status(401);
-    res.json({"message" : err.name + ": " + err.message});
+    res.json({ message : err.name + ': ' + err.message });
   }
 });
 
