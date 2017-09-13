@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ResetrequestComponent } from './resetrequest.component';
+import {ResetrequestComponent} from './resetrequest.component';
 
 describe('ResetrequestComponent', () => {
   let component: ResetrequestComponent;
@@ -8,9 +8,9 @@ describe('ResetrequestComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ResetrequestComponent ]
+      declarations: [ResetrequestComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

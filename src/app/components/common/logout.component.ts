@@ -7,7 +7,8 @@ import {Router} from '@angular/router';
   templateUrl: 'logout.component.html'
 })
 export class LogoutComponent implements OnInit {
-  constructor(private router: Router){ }
+  constructor(private router: Router) {
+  }
 
   ngOnInit() {
     this.router.navigate(['/']);

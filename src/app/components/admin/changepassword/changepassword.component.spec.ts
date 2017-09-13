@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ChangepasswordComponent } from './changepassword.component';
+import {ChangepasswordComponent} from './changepassword.component';
 
 describe('ChangepasswordComponent', () => {
   let component: ChangepasswordComponent;
@@ -8,9 +8,9 @@ describe('ChangepasswordComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChangepasswordComponent ]
+      declarations: [ChangepasswordComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

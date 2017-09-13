@@ -6,8 +6,10 @@ import {Component, OnInit} from '@angular/core';
   templateUrl: 'instructions.component.html'
 })
 export class InstructionsComponent implements OnInit {
-  constructor(){ }
+  constructor() {
+  }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
 }

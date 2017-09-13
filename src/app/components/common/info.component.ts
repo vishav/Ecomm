@@ -6,8 +6,10 @@ import {Component, OnInit} from '@angular/core';
   templateUrl: 'info.component.html'
 })
 export class InfoComponent implements OnInit {
-  constructor(){ }
+  constructor() {
+  }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
 }

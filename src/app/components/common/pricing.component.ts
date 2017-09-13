@@ -13,7 +13,7 @@ export class PricingComponent implements OnInit {
   pricing: Promise<Pricing>;
   countryPrice: number;
 
-  constructor(private paymentservice : PaymentService){
+  constructor(private paymentservice: PaymentService) {
     this.pricing = this.paymentservice.getPricings();
   }
 

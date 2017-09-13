@@ -1,23 +1,21 @@
-
-
-const express = require('express');
+const express = require( 'express' );
 const router = express.Router();
-var jwt = require('express-jwt');
+var jwt = require( 'express-jwt' );
 
-var auth = jwt({
-  secret:process.env.JWT_SECRET,
+var auth = jwt( {
+  secret: process.env.JWT_SECRET,
   userProperty: 'payload'
-});
+} );
 
 //controller routes to authentication pages
-var ctrlAuth = require('../controllers/authentication');
-var ctrlHoliday = require('../controllers/holiday');
-var ctrlShoppingCart = require('../controllers/shoppingCart');
-var paypal = require('../controllers/payment');
-var orders = require('../controllers/orders');
-var pricing = require('../controllers/pricing');
-var ctrlUsers  = require('../controllers/users');
-const request = require('request');
+var ctrlAuth = require( '../controllers/authentication' );
+var ctrlHoliday = require( '../controllers/holiday' );
+var ctrlShoppingCart = require( '../controllers/shoppingCart' );
+var paypal = require( '../controllers/payment' );
+var orders = require( '../controllers/orders' );
+var pricing = require( '../controllers/pricing' );
+var ctrlUsers = require( '../controllers/users' );
+const request = require( 'request' );
 
 // declare axios for making http requests
 const baseURL = 'http://www.worldholidaysandevents.com/HolidaysRESTJSON/webresources/holidaysandevents';
@@ -27,127 +25,131 @@ const countryCitiesUrl = baseURL + '/countryCities/';
 const citiesUrl = baseURL + '/countryStateCities/';
 
 /* GET api listing. */
-router.get('/', (req, res) => {
-  res.send('api works');
-});
+router.get( '/', ( req, res ) => {
+  res.send( 'api works' );
+} );
 
-router.get('/countries', (req, res) => {
+router.get( '/countries', ( req, res ) => {
   request.get(
-        { url: contriesUrl,
-        method:'Get'
-      },
-        function (error, apires, body) {
-          if (error) {
-            res.status(500).send(error);
-            return;
-          }
-
-          if (apires.statusCode != 200) {
-            res.status(apires.statusCode).send(apires.statusCode);
-            return;
-          }
-
-          res.status(200).send(body);
-        }
-      );
-
-});
-
-router.get('/countryStates/:country', (req, res) => {
-  request.get(
-        { url: statesUrl + req.params.country,
-        method:'Get'
-      },
-        function (error, apires, body) {
-          if (error) {
-            res.status(500).send(error);
-            return;
-          }
-
-          if (apires.statusCode != 200) {
-            res.status(apires.statusCode).send(apires.statusCode);
-            return;
-          }
-
-          res.status(200).send(body);
-        }
-      );
-});
-
-router.get('/countryCities/:country', (req, res) => {
-  request.get(
-    { url: countryCitiesUrl + req.params.country,
-      method:'Get'
+    {
+      url: contriesUrl,
+      method: 'Get'
     },
-    function (error, apires, body) {
-      if (error) {
-        res.status(500).send(error);
+    function( error, apires, body ) {
+      if ( error ) {
+        res.status( 500 ).send( error );
         return;
       }
 
-      if (apires.statusCode != 200) {
-        res.status(apires.statusCode).send(apires.statusCode);
+      if ( apires.statusCode != 200 ) {
+        res.status( apires.statusCode ).send( apires.statusCode );
         return;
       }
 
-      res.status(200).send(body);
+      res.status( 200 ).send( body );
     }
   );
-});
 
-router.get('/countryStateCities/:state/:country', (req, res) => {
+} );
+
+router.get( '/countryStates/:country', ( req, res ) => {
   request.get(
-        { url: citiesUrl + req.params.country + '/' + req.params.state,
-        method:'Get'
-      },
-        function (error, apires, body) {
-          if (error) {
-            res.status(500).send(error);
-            return;
-          }
+    {
+      url: statesUrl + req.params.country,
+      method: 'Get'
+    },
+    function( error, apires, body ) {
+      if ( error ) {
+        res.status( 500 ).send( error );
+        return;
+      }
 
-          if (apires.statusCode != 200) {
-            res.status(apires.statusCode).send(apires.statusCode);
-            return;
-          }
+      if ( apires.statusCode != 200 ) {
+        res.status( apires.statusCode ).send( apires.statusCode );
+        return;
+      }
 
-          res.status(200).send(body);
-        }
-      );
-});
-router.get('/currentyear', (req, res) =>{
-  var year = { year : new Date().getFullYear() };
-  res.status(200).send(year);
-});
+      res.status( 200 ).send( body );
+    }
+  );
+} );
+
+router.get( '/countryCities/:country', ( req, res ) => {
+  request.get(
+    {
+      url: countryCitiesUrl + req.params.country,
+      method: 'Get'
+    },
+    function( error, apires, body ) {
+      if ( error ) {
+        res.status( 500 ).send( error );
+        return;
+      }
+
+      if ( apires.statusCode != 200 ) {
+        res.status( apires.statusCode ).send( apires.statusCode );
+        return;
+      }
+
+      res.status( 200 ).send( body );
+    }
+  );
+} );
+
+router.get( '/countryStateCities/:state/:country', ( req, res ) => {
+  request.get(
+    {
+      url: citiesUrl + req.params.country + '/' + req.params.state,
+      method: 'Get'
+    },
+    function( error, apires, body ) {
+      if ( error ) {
+        res.status( 500 ).send( error );
+        return;
+      }
+
+      if ( apires.statusCode != 200 ) {
+        res.status( apires.statusCode ).send( apires.statusCode );
+        return;
+      }
+
+      res.status( 200 ).send( body );
+    }
+  );
+} );
+router.get( '/currentyear', ( req, res ) => {
+  var year = { year: new Date().getFullYear() };
+  res.status( 200 ).send( year );
+} );
 //added auth to secure the holidays
-router.get('/holidays/:country/:state/:city/:fromyear/:frommonth/:fromday/:toyear/:tomonth/:today', auth,
-  ctrlHoliday.findHolidays);
+router.get( '/holidays/:country/:state/:city/:fromyear/:frommonth/:fromday/:toyear/:tomonth/:today', auth,
+  ctrlHoliday.findHolidays );
 
-router.get('/freeholidays/:country/:state/:city/:fromyear/:frommonth/:fromday/:toyear/:tomonth/:today', ctrlHoliday.findfreeholidays);
+router.get( '/freeholidays/:country/:state/:city/:fromyear/:frommonth/:fromday/:toyear/:tomonth/:today', ctrlHoliday.findfreeholidays );
 
-router.post('/shoppingcart', auth, ctrlShoppingCart.saveCart);
-router.get('/shoppingcart/:useremail', auth, ctrlShoppingCart.getShoppingCart);
+router.post( '/shoppingcart', auth, ctrlShoppingCart.saveCart );
+router.get( '/shoppingcart/:useremail', auth, ctrlShoppingCart.getShoppingCart );
 
-router.post('/register', ctrlAuth.register);
-router.post('/login', ctrlAuth.login);
+router.post( '/register', ctrlAuth.register );
+router.post( '/login', ctrlAuth.login );
 
-router.post('/create', paypal.create);
+router.post( '/create', paypal.create );
 
-router.post('/orders', auth, orders.saveOrder);
+router.post( '/orders', auth, orders.saveOrder );
 
-router.get('/orders/:useremail', auth, orders.getOrders);
+router.get( '/orders/:useremail', auth, orders.getOrders );
 
-router.get('/payment/:paymentid', paypal.get);
+router.get( '/payment/:paymentid', paypal.get );
 
-router.get('/pricing/', pricing.getPricing);
+router.get( '/pricing/', pricing.getPricing );
 
-router.get('/users/', auth, ctrlUsers.getUsers);
+router.get( '/users/', auth, ctrlUsers.getUsers );
 
-router.post('/resetpassword', ctrlUsers.resetPassword);
+router.post( '/resetpassword', ctrlUsers.resetPassword );
 
-router.get('/uuiduser/:requesteduuid', ctrlUsers.getUserByUUID);
+router.get( '/uuiduser/:requesteduuid', ctrlUsers.getUserByUUID );
 
 
-router.post('/changepassword', ctrlUsers.changePassword);
+router.post( '/changepassword', ctrlUsers.changePassword );
 
 module.exports = router;

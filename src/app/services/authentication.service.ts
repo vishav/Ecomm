@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import {Injectable} from '@angular/core';
+import {Http} from '@angular/http';
 import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/map'
 import {Observable} from "rxjs";
@@ -7,18 +7,21 @@ import {Observable} from "rxjs";
 @Injectable()
 export class AuthenticationService {
   public token: string;
-  constructor(private http: Http) { }
 
-  getToken(){
+  constructor(private http: Http) {
+  }
+
+  getToken() {
     return localStorage.getItem('mea2necomm-token');
   }
 
-  saveToken(token){
+  saveToken(token) {
     console.log(token);
-    localStorage.setItem('mea2necomm-token',token);
+    localStorage.setItem('mea2necomm-token', token);
   }
-  login(useremail: string, password: string){
-    return this.http.post('/api/login', { email: useremail, password: password })
+
+  login(useremail: string, password: string) {
+    return this.http.post('/api/login', {email: useremail, password: password})
       .map((response) => {
         // login successful if there's a jwt token in the response
         let token = response.json() && response.json().token;
@@ -41,43 +44,48 @@ export class AuthenticationService {
       });
   }
 
-  register(user){
+  register(user) {
     console.log(user);
-    return this.http.post('/api/register', { fname:user.firstName, lname : user.lastName, password : user.password, email : user.email})
-      .map(res =>{
+    return this.http.post('/api/register', {
+      fname: user.firstName,
+      lname: user.lastName,
+      password: user.password,
+      email: user.email
+    })
+      .map(res => {
         let token = res.json() && res.json().token;
         console.log(token);
-        if(token){
+        if (token) {
           this.saveToken(token);
           return true;
-        }else {
+        } else {
           return false;
         }
       })
-      .catch((error, caught) =>{
-      return Observable.throw(error);
+      .catch((error, caught) => {
+        return Observable.throw(error);
       });
   }
 
-  logout(){
+  logout() {
     localStorage.removeItem('mea2necomm-token')
   }
 
-  isLoggedIn(){
+  isLoggedIn() {
     var token = this.getToken();
-    if(token){
+    if (token) {
       var payload = JSON.parse(atob(token.split('.')[1]));
       return payload.exp > Date.now() / 1000;
 
     }
-    else{
+    else {
       return false;
     }
   }
 
   // Returns the user if user is logged in, or returns false if not logged in
-  currentUser(){
-    if(this.isLoggedIn()){
+  currentUser() {
+    if (this.isLoggedIn()) {
       var token = this.getToken;
       var payload = JSON.parse(atob(token().split('.')[1]));
       var user = {

@@ -1,17 +1,19 @@
 
 li {
-  cursor:default;
+  cursor: default;
 }
+
 .scrollable-menu {
   height: auto;
   max-height: 200px;
   overflow-x: hidden;
 }
 
-.btn-block{
+.btn-block {
   margin-bottom: 20px;
 }
-.form-control{
+
+.form-control {
   margin-left: 10px;
   margin-bottom: 20px;
 }

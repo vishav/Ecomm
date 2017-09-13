@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { HselectionService } from '../../services/hselection.service'
-import { ShoppingcartService } from '../../services/shoppingcart.service'
+import {Component, OnInit} from '@angular/core';
+import {Router, ActivatedRoute} from '@angular/router';
+import {HselectionService} from '../../services/hselection.service'
+import {ShoppingcartService} from '../../services/shoppingcart.service'
 
 @Component({
   selector: 'app-holidaylist',
@@ -11,26 +11,26 @@ import { ShoppingcartService } from '../../services/shoppingcart.service'
 export class HolidaylistComponent implements OnInit {
   country: any;
   state: any;
-  city : any;
+  city: any;
   fromyear: any;
-  frommonth : any;
-  fromday : any;
+  frommonth: any;
+  fromday: any;
   toyear: any;
-  tomonth : any;
-  today : any;
+  tomonth: any;
+  today: any;
   paramsSub: any;
-  holidays : any =[];
-  businessesClosed:string;
-  banksClosed:string;
-  religiousHoliday:string;
-  religion:string;
-  errorMessage:string;
+  holidays: any = [];
+  businessesClosed: string;
+  banksClosed: string;
+  religiousHoliday: string;
+  religion: string;
+  errorMessage: string;
   route: any;
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private hselectionService:HselectionService,
-    private cartservice: ShoppingcartService,
-  ) { }
+
+  constructor(private activatedRoute: ActivatedRoute,
+              private hselectionService: HselectionService,
+              private cartservice: ShoppingcartService,) {
+  }
 
   ngOnInit() {
     this.route = this.activatedRoute.snapshot.url[0].path;
@@ -38,11 +38,11 @@ export class HolidaylistComponent implements OnInit {
 
       this.country = params['country'];
       this.state = params['state'];
-      if(this.state == 'State'){
+      if (this.state == 'State') {
         this.state = 'none';
       }
       this.city = params['city'];
-      if(this.city == 'City'){
+      if (this.city == 'City') {
         this.city = 'none';
       }
 
@@ -54,8 +54,8 @@ export class HolidaylistComponent implements OnInit {
       this.tomonth = params['tomonth'];
       this.today = params['today'];
 
-      var data = {
-        country : this.country,
+      let data = {
+        country: this.country,
         state: this.state,
         city: this.city,
         fromYear: this.fromyear,
@@ -66,22 +66,21 @@ export class HolidaylistComponent implements OnInit {
         toDay: this.today
       };
 
-      if(this.route == 'freeholidaylist'){
+      if (this.route == 'freeholidaylist') {
         this.hselectionService.getFreeHolidays(data)
-          .subscribe(holidays =>{
+          .subscribe(holidays => {
               console.log(holidays);
               this.holidays = holidays.theList;
             },
-            error =>{
+            error => {
               this.errorMessage = error.json().errormessage;
               console.log(this.errorMessage);
 
             });
-      } else if (this.route == 'holidaylist'){
+      } else if (this.route == 'holidaylist') {
         this.hselectionService.getHolidays(data)
           .subscribe(
-            holidays =>
-            {
+            holidays => {
               this.holidays = holidays.theList;
               console.log(this.holidays);
             },
@@ -93,10 +92,9 @@ export class HolidaylistComponent implements OnInit {
     });
 
 
-
   }
 
-  setholiday(holiday){
+  setholiday(holiday) {
     console.log(holiday);
     this.businessesClosed = holiday.businessesClosed;
     this.banksClosed = holiday.banksClosed;

@@ -1,30 +1,30 @@
-import { Injectable } from '@angular/core';
-import { Http,RequestOptions,Headers } from '@angular/http';
+import {Injectable} from '@angular/core';
+import {Http, RequestOptions, Headers} from '@angular/http';
 import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/map'
 import {Observable} from "rxjs";
 import {SearchQuery} from "../models/SearchQuery";
 import {OrderService} from "./order.service";
 import {Router} from '@angular/router';
-import { AuthenticationService } from '../services/authentication.service';
+import {AuthenticationService} from '../services/authentication.service';
 
 @Injectable()
 export class PaymentService {
   paymentid: string;
   cart: SearchQuery[];
-  constructor(
-    private http: Http,
-    private orderservice : OrderService,
-    private authservice: AuthenticationService,
-    private router : Router
-  ) { }
 
-  createpayment(data){
+  constructor(private http: Http,
+              private orderservice: OrderService,
+              private authservice: AuthenticationService,
+              private router: Router) {
+  }
+
+  createpayment(data) {
     console.log(data);
     var headers = new Headers({
       'Content-Type': 'application/json'
     });
-    let options = new RequestOptions({ headers: headers });
+    let options = new RequestOptions({headers: headers});
     this.http.post('/api/create', JSON.stringify({
       expmon: data.expire_month,
       expyear: data.expire_year,
@@ -32,13 +32,13 @@ export class PaymentService {
       lname: data.last_name,
       method: data.method,
       cnum: data.number,
-      total : data.total,
+      total: data.total,
       type: data.type,
       cvv2: data.cvv2
     }), options)
       .map(res =>
         res.json()
-       ).catch((error, caught) => {
+      ).catch((error, caught) => {
       if (error.status === 400) {
         console.log(error);
 
@@ -46,48 +46,47 @@ export class PaymentService {
       return Observable.throw(error);
     })
       .subscribe(
-        result =>
-        {
+        result => {
           console.log(result);
           this.paymentid = result.id;
-          if(result.state == "approved"){
+          if (result.state == "approved") {
             this.orderservice.pushtoorders(this.paymentid, data.total);
           }
-          if(result.state == "failed"){
+          if (result.state == "failed") {
 
           }
 
-        }, error=>{
+        }, error => {
           console.log(error);
           this.router.navigate(['/failure'])
         });
   }
 
-  getPaymentDetails(paymentid){
+  getPaymentDetails(paymentid) {
     console.log(paymentid);
-    return this.http.get('/api/payment/'+paymentid).map(res => res.json());
+    return this.http.get('/api/payment/' + paymentid).map(res => res.json());
   }
 
-  getPricing(){
-      let headers = new Headers({ 'Accept': 'application/json' });
-      //headers.append('Authorization', 'Bearer '+ this.authservice.getToken());
-      let options = new RequestOptions({ headers: headers });
+  getPricing() {
+    let headers = new Headers({'Accept': 'application/json'});
+    //headers.append('Authorization', 'Bearer '+ this.authservice.getToken());
+    let options = new RequestOptions({headers: headers});
 
-      //var user = this.authservice.currentUser();
+    //var user = this.authservice.currentUser();
 
-      return this.http.get('/api/pricing/',options)
-        .map(res => res.json());
+    return this.http.get('/api/pricing/', options)
+      .map(res => res.json());
   }
 
 
   async getPricings() {
-    let headers = new Headers({ 'Accept': 'application/json' });
+    let headers = new Headers({'Accept': 'application/json'});
     //headers.append('Authorization', 'Bearer '+ this.authservice.getToken());
-    let options = new RequestOptions({ headers: headers });
+    let options = new RequestOptions({headers: headers});
 
     //var user = this.authservice.currentUser();
 
-    const response = await this.http.get('/api/pricing/',options).toPromise();
+    const response = await this.http.get('/api/pricing/', options).toPromise();
     return response.json();
   }
 }

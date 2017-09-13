@@ -6,8 +6,10 @@ import {Component, OnInit} from '@angular/core';
   templateUrl: 'failure.component.html'
 })
 export class FailureComponent implements OnInit {
-  constructor(){ }
+  constructor() {
+  }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
 }

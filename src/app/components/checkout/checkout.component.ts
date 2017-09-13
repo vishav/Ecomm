@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SearchQuery} from "../../models/SearchQuery";
 import {ShoppingcartService} from "../../services/shoppingcart.service";
 import {PaymentService} from "../../services/payment.service";
@@ -12,31 +12,31 @@ export class CheckoutComponent implements OnInit {
   cartitems: SearchQuery[];
   total: number;
   //price: number;
-  pricing:any=null;
+  pricing: any = null;
   firstname: string;
   lastname: string;
   expirydate: string;
-  cardnumber:number;
+  cardnumber: number;
   paymentmethod: string;
   cvcode: number;
-  paypalactive : boolean = false;
-  creditactive : boolean = false;
+  paypalactive: boolean = false;
+  creditactive: boolean = false;
   res: any;
-  constructor(
-    private cartservice: ShoppingcartService,
-    private paymentservice: PaymentService
-  ) { }
+
+  constructor(private cartservice: ShoppingcartService,
+              private paymentservice: PaymentService) {
+  }
 
   ngOnInit() {
     //this.price = this.cartservice.getPricePerYear();
-    this.cartservice.getShoppingCart().subscribe( cartitems =>{
+    this.cartservice.getShoppingCart().subscribe(cartitems => {
       this.cartitems = cartitems;
       this.total = this.totalprice();
       console.log(this.total);
     });
 
     this.paymentservice.getPricing().subscribe(pricing => {
-      if(pricing){
+      if (pricing) {
         this.pricing = pricing;
       }
       console.log("the pricing object:");
@@ -47,52 +47,52 @@ export class CheckoutComponent implements OnInit {
 
   }
 
-  totalprice(){
+  totalprice() {
     var total = 0;
-    for(var i = 0; i < this.cartitems.length; i++){
-      total+= this.itemprice(this.cartitems[i]);
+    for (var i = 0; i < this.cartitems.length; i++) {
+      total += this.itemprice(this.cartitems[i]);
     }
     return total;
   }
 
   daydiff(first, second) {
-    return Math.round((second-first)/(1000*60*60*24));
+    return Math.round((second - first) / (1000 * 60 * 60 * 24));
   }
 
-  itemprice(item){
+  itemprice(item) {
     var itemprice = 0;
-    if(item.state == "State"){
+    if (item.state == "State") {
       itemprice = this.pricing.countryPrice;
-    }else if(item.city == "City"){
+    } else if (item.city == "City") {
       itemprice = this.pricing.statePrice;
-    }else{
+    } else {
       itemprice = this.pricing.cityPrice;
     }
-    var fromdate = new Date(item.fromYear,item.fromMonth,item.fromDay);
-    var todate = new Date(item.toYear,item.toMonth,item.toDay);
-    var noofdays = this.daydiff(fromdate,todate);
+    var fromdate = new Date(item.fromYear, item.fromMonth, item.fromDay);
+    var todate = new Date(item.toYear, item.toMonth, item.toDay);
+    var noofdays = this.daydiff(fromdate, todate);
 
-    var priceperday = itemprice/365;
-    var totalprice = priceperday*noofdays;
+    var priceperday = itemprice / 365;
+    var totalprice = priceperday * noofdays;
     if (totalprice > this.pricing.minPrice)
       return (totalprice);
     else
-      return(this.pricing.minPrice);
+      return (this.pricing.minPrice);
 
   }
 
-  paymethod(type){
-    if(type === 'paypal'){
+  paymethod(type) {
+    if (type === 'paypal') {
       this.paypalactive = true;
       this.creditactive = false;
     }
-    if(type === 'credit'){
+    if (type === 'credit') {
       this.creditactive = true;
       this.paypalactive = false;
     }
   }
 
-  getType(number){
+  getType(number) {
     var re = new RegExp("^4");
     if (number.match(re) != null)
       return "visa";
@@ -117,10 +117,11 @@ export class CheckoutComponent implements OnInit {
     if (number.match(re) != null)
       return "diners";
   }
-  pay(){
+
+  pay() {
     var type = this.getType(this.cardnumber);
     console.log(type);
-    if(this.creditactive){
+    if (this.creditactive) {
       var payment = {
         "total": this.total,
         "method": "credit",
@@ -130,13 +131,13 @@ export class CheckoutComponent implements OnInit {
         "expire_year": this.expirydate.split("/")[1],
         "first_name": this.firstname,
         "last_name": this.lastname,
-        "cvv2" : this.cvcode
+        "cvv2": this.cvcode
       };
       this.paymentservice.createpayment(payment);
 
     }
 
-    if(this.paypalactive){
+    if (this.paypalactive) {
 
     }
   }

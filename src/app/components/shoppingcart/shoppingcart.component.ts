@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ShoppingcartService } from '../../services/shoppingcart.service';
-import { PaymentService} from "../../services/payment.service";
+import {Component, OnInit} from '@angular/core';
+import {ShoppingcartService} from '../../services/shoppingcart.service';
+import {PaymentService} from "../../services/payment.service";
 
 import {SearchQuery} from "../../models/SearchQuery";
-import { Router } from '@angular/router';
+import {Router} from '@angular/router';
+
 @Component({
   selector: 'app-shoppingcart',
   templateUrl: 'shoppingcart.component.html',
@@ -11,29 +12,28 @@ import { Router } from '@angular/router';
 })
 export class ShoppingcartComponent implements OnInit {
 
-  pricing:any=null;
+  pricing: any = null;
   cartitems: any = [];
   cartnumber: number;
   //price: number;
   total: number;
 
-  constructor(
-    private cartservice : ShoppingcartService,
-    private paymentservice: PaymentService,
-    private router : Router
-  ) { }
+  constructor(private cartservice: ShoppingcartService,
+              private paymentservice: PaymentService,
+              private router: Router) {
+  }
 
   ngOnInit() {
     //this.price = this.cartservice.getPricePerYear();
 
     this.paymentservice.getPricing().subscribe(pricing => {
-      if(pricing){
+      if (pricing) {
         this.pricing = pricing;
       }
       console.log("the pricing object:");
       console.log(pricing);
       this.cartservice.getShoppingCart().subscribe(usercartitems => {
-        if(usercartitems){
+        if (usercartitems) {
           console.log("shopping cart component");
           console.log(usercartitems);
         }
@@ -44,66 +44,64 @@ export class ShoppingcartComponent implements OnInit {
     });
 
 
-
     console.log(this.total);
   }
 
-  removeallfromcart(){
+  removeallfromcart() {
     this.cartservice.clearItems();
     this.cartitems = [];
     this.cartnumber = 0;
   }
 
-  removefromcart(index:number){
+  removefromcart(index: number) {
     console.log("delete index: " + index);
     this.cartservice.removeItem(index);
-    this.cartitems.splice(index,1);
+    this.cartitems.splice(index, 1);
     this.total = this.totalprice();
-    this.cartservice.getShoppingCart().subscribe(cartItems =>
-    {
+    this.cartservice.getShoppingCart().subscribe(cartItems => {
       this.cartnumber = cartItems.length;
       console.log("cartnumber from delete:" + this.cartnumber);
     });
 
   }
 
-  totalprice(){
+  totalprice() {
     var total = 0;
-    for(var i = 0; i < this.cartitems.length; i++){
+    for (var i = 0; i < this.cartitems.length; i++) {
       //console.log(this.cartitems[i]);
       //total+= (this.cartitems[i].toYear - this.cartitems[i].fromYear + 1) * this.price;
-      total+= this.itemprice(this.cartitems[i]);
+      total += this.itemprice(this.cartitems[i]);
     }
     return total;
   }
 
   daydiff(first, second) {
-  return Math.round((second-first)/(1000*60*60*24));
+    return Math.round((second - first) / (1000 * 60 * 60 * 24));
   }
 
-  itemprice(item){
+  itemprice(item) {
     var itemprice = 0;
-    if(item.state == "State"){
+    if (item.state == "State") {
       itemprice = this.pricing.countryPrice;
-    }else if(item.city == "City"){
+    } else if (item.city == "City") {
       itemprice = this.pricing.statePrice;
-    }else{
+    } else {
       itemprice = this.pricing.cityPrice;
     }
-    var fromdate = new Date(item.fromYear,item.fromMonth,item.fromDay);
-    var todate = new Date(item.toYear,item.toMonth,item.toDay);
-    var noofdays = this.daydiff(fromdate,todate);
+    var fromdate = new Date(item.fromYear, item.fromMonth, item.fromDay);
+    var todate = new Date(item.toYear, item.toMonth, item.toDay);
+    var noofdays = this.daydiff(fromdate, todate);
 
-    var priceperday = itemprice/365;
-    var totalprice = priceperday*noofdays;
+    var priceperday = itemprice / 365;
+    var totalprice = priceperday * noofdays;
     if (totalprice > this.pricing.minPrice)
       return (totalprice);
     else
-      return(this.pricing.minPrice);
+      return (this.pricing.minPrice);
 
   }
 
-  checkout(){
+  checkout() {
     this.router.navigate(['/checkout']);
   }
 

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { PaymentService} from "../../../services/payment.service";
+import {Component, OnInit} from '@angular/core';
+import {PaymentService} from "../../../services/payment.service";
 import {UsersService} from "../../../services/users.service";
 
 @Component({
@@ -9,13 +9,15 @@ import {UsersService} from "../../../services/users.service";
 })
 export class PricechangerComponent implements OnInit {
 
-  pricing:any=null;
-  constructor(private paymentservice:PaymentService ) { }
+  pricing: any = null;
+
+  constructor(private paymentservice: PaymentService) {
+  }
 
   ngOnInit() {
 
     this.paymentservice.getPricing().subscribe(pricing => {
-      if(pricing){
+      if (pricing) {
         this.pricing = pricing;
       }
       console.log("the pricing object:");

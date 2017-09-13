@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 import {OrderService} from '../../services/order.service';
 import {OrderItem} from "../../models/OrderItem";
@@ -12,29 +12,30 @@ import {PaymentService} from "../../services/payment.service";
 })
 export class OrderComponent implements OnInit {
 
-  orders:OrderItem[]=[];
-  cartitems:SearchQuery[];
+  orders: OrderItem[] = [];
+  cartitems: SearchQuery[];
   payment: any;
-  constructor(private orderService : OrderService, private paymentservice : PaymentService) {
+
+  constructor(private orderService: OrderService, private paymentservice: PaymentService) {
 
   }
 
   ngOnInit() {
-      this.orderService.getuserorders().subscribe(userorders => {
-        if(userorders){
-          this.orders = userorders;
-        }
-        console.log(userorders);
-      });
+    this.orderService.getuserorders().subscribe(userorders => {
+      if (userorders) {
+        this.orders = userorders;
+      }
+      console.log(userorders);
+    });
   }
 
-  getorderdetails(i){
+  getorderdetails(i) {
     this.cartitems = this.orders[i].cartItems;
   }
 
-  getpayment(val){
+  getpayment(val) {
 
-    this.paymentservice.getPaymentDetails(val).subscribe(res =>{
+    this.paymentservice.getPaymentDetails(val).subscribe(res => {
       console.log(res);
       this.payment = res;
     });

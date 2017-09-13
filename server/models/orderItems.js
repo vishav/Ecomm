@@ -1,7 +1,6 @@
+var mongoose = require( 'mongoose' );
 
-var mongoose = require('mongoose');
-
-var cartItemSchema = new mongoose.Schema({
+var cartItemSchema = new mongoose.Schema( {
   country: String,
   state: String,
   city: String,
@@ -11,10 +10,10 @@ var cartItemSchema = new mongoose.Schema({
   toYear: Number,
   toMonth: Number,
   toDay: Number
-});
+} );
 
 
-var orderSchema = new mongoose.Schema({
+var orderSchema = new mongoose.Schema( {
   useremail: {
     type: String,
     required: true
@@ -24,7 +23,7 @@ var orderSchema = new mongoose.Schema({
     unique: true,
     required: true
   },
-  cartItems:[cartItemSchema],
+  cartItems: [ cartItemSchema ],
   total: {
     type: Number,
     required: true
@@ -32,8 +31,8 @@ var orderSchema = new mongoose.Schema({
   date: {
     type: String
   }
-});
+} );
 
 
-mongoose.model('Order', orderSchema);
+mongoose.model( 'Order', orderSchema );
 

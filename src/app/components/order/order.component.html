@@ -1,5 +1,5 @@
-<app-navbar [cartnumber] = "cartnumber"> </app-navbar>
-<div class="container" >
+<app-navbar [cartnumber]="cartnumber"></app-navbar>
+<div class="container">
   <h3 class="text-center">
     Orders
   </h3>
@@ -9,7 +9,7 @@
       <thead>
       <tr>
         <th>Purchase Date</th>
-        <th>Order Details </th>
+        <th>Order Details</th>
         <th>Payment Details</th>
       </tr>
       </thead>
@@ -17,14 +17,15 @@
       <tr class="warning" *ngFor="let order of orders; let i = index">
         <td>{{order.date}}</td>
         <td><a data-toggle="modal" data-target="#orderModal" (click)="getorderdetails(i)">Order details </a></td>
-        <td><a data-toggle="modal" data-target="#payModal" (click)="getpayment(order.paymentid)">{{order.total | currency:'USD':true:'.2-4'}}</a></td>
+        <td><a data-toggle="modal" data-target="#payModal" (click)="getpayment(order.paymentid)">{{order.total |
+          currency:'USD':true:'.2-4'}}</a></td>
       </tr>
       </tbody>
     </table>
   </div>
 
   <div *ngIf="this.orders.length<=0" class="container well well-lg">
-    <p> You do not have any orders. <a href="/">Buy</a> </p>
+    <p> You do not have any orders. <a href="/">Buy</a></p>
   </div>
 
 </div>
@@ -53,8 +54,13 @@
             <td *ngIf="item.state == 'State'">No state Selected</td>
             <td *ngIf="item.city != 'City'">{{item.city}}</td>
             <td *ngIf="item.city == 'City'">No city selected</td>
-            <td>{{item.fromMonth}}/{{item.fromDay}}/{{item.fromYear}}&nbsp;-&nbsp;{{item.toMonth}}/{{item.toDay}}/{{item.toYear}} </td>
-            <td><button type="button" class="btn btn-info" data-dismiss="modal" [routerLink]="['/holidaylist',item.country,item.state,item.city,item.fromYear,item.fromMonth,item.fromDay,item.toYear,item.toMonth,item.toDay]">View Holidays</button></td>
+            <td>{{item.fromMonth}}/{{item.fromDay}}/{{item.fromYear}}&nbsp;-&nbsp;{{item.toMonth}}/{{item.toDay}}/{{item.toYear}}</td>
+            <td>
+              <button type="button" class="btn btn-info" data-dismiss="modal"
+                      [routerLink]="['/holidaylist',item.country,item.state,item.city,item.fromYear,item.fromMonth,item.fromDay,item.toYear,item.toMonth,item.toDay]">
+                View Holidays
+              </button>
+            </td>
           </tr>
           </tbody>
         </table>

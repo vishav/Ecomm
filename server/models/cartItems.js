@@ -1,7 +1,7 @@
 /**
  * Created by jacob on 4/6/17.
  */
-var mongoose = require('mongoose');
+var mongoose = require( 'mongoose' );
 
 /*
  export interface SearchQuery{
@@ -13,7 +13,7 @@ var mongoose = require('mongoose');
  }
 * */
 
-var cartItemSchema = new mongoose.Schema({
+var cartItemSchema = new mongoose.Schema( {
   country: String,
   state: String,
   city: String,
@@ -23,17 +23,17 @@ var cartItemSchema = new mongoose.Schema({
   toYear: Number,
   toMonth: Number,
   toDay: Number
-});
+} );
 
-var shoppingCartSchema = new mongoose.Schema({
+var shoppingCartSchema = new mongoose.Schema( {
   useremail: {
     type: String,
     unique: true,
     required: true
   },
-  cartItems:[cartItemSchema]
-});
+  cartItems: [ cartItemSchema ]
+} );
 
 
-mongoose.model('ShoppingCart', shoppingCartSchema);
+mongoose.model( 'ShoppingCart', shoppingCartSchema );
 

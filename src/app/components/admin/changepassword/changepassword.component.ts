@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {Router, ActivatedRoute} from '@angular/router';
 import {UsersService} from "../../../services/users.service";
 
 @Component({
@@ -9,12 +9,13 @@ import {UsersService} from "../../../services/users.service";
 })
 export class ChangepasswordComponent implements OnInit {
 
-  private requesteduuid:string = null;
-  private user:any = null;
-  private updateresult:string ="";
-  constructor(private userservice:UsersService,
-  private activatedRoute: ActivatedRoute
-  ) { }
+  private requesteduuid: string = null;
+  private user: any = null;
+  private updateresult: string = "";
+
+  constructor(private userservice: UsersService,
+              private activatedRoute: ActivatedRoute) {
+  }
 
   ngOnInit() {
 
@@ -24,10 +25,10 @@ export class ChangepasswordComponent implements OnInit {
 
       console.log("before call");
       this.userservice.getUserByUUID(this.requesteduuid).subscribe(user => {
-        if(user){
+        if (user) {
           console.log(user);
           this.user = user;
-        }else{
+        } else {
           console.log("user with uuid not found");
         }
       });
@@ -36,12 +37,12 @@ export class ChangepasswordComponent implements OnInit {
     });
   }
 
-  resetpassword(pass){
-    this.userservice.updatePassword(this.requesteduuid,pass).subscribe(result =>{
-      if(result){
+  resetpassword(pass) {
+    this.userservice.updatePassword(this.requesteduuid, pass).subscribe(result => {
+      if (result) {
         console.log(result);
         this.updateresult = "Successfully changed password";
-      }else{
+      } else {
         console.log("Error while changing password");
         this.updateresult = "Unsuccessful";
       }
