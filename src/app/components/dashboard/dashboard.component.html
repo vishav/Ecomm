@@ -1,86 +1,103 @@
 <app-navbar [cartnumber]="cartnumber"></app-navbar>
 
-<div id="selectionbar" class="panel-body">
-  <div class="container">
+<div class="alert alert-warning" role="alert" *ngIf="!isloggedin; else authcheckblock ">{{notloggederrormessage}}</div>
+<ng-template #authcheckblock>
+  <div class="alert alert-danger" role="alert" *ngIf="role!='administrator'; else successBlock">{{unautherrormessage}}</div>
+</ng-template>
 
-    <div class="col-md-4">
-      <div class="dropdown">
-        <button id="country" class="btn btn-primary dropdown-toggle btn-block" type="button" data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false" id="btncountry">
-          {{selectedcountry}}
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu scrollable-menu col-xs-12" aria-labelledby="dLabel">
-          <li *ngFor="let country of countries" href="#" (click)=c ountrySelect(country)>
-            {{country}}
-          </li>
-        </ul>
+<ng-template #successBlock>
+  <div id="selectionbar" class="panel-body">
+    <div class="container">
+
+      <div class="col-md-4">
+        <div class="dropdown">
+          <button id="country" class="btn btn-primary dropdown-toggle btn-block" type="button" data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false" id="btncountry">
+            {{selectedcountry}}
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu scrollable-menu col-xs-12" aria-labelledby="dLabel">
+            <li *ngFor="let country of countries" href="#" (click)=countrySelect(country)>
+              {{country}}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="dropdown">
+          <button id="state" class="btn btn-primary dropdown-toggle btn-block" type="button" data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false" id="btnstate">
+            {{selectedstate}}
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu scrollable-menu col-xs-12" aria-labelledby="dLabel">
+            <li *ngFor="let state of states" href="#" (click)=stateSelect(state)>
+              {{state}}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="dropdown">
+          <button id="city" class="btn btn-primary dropdown-toggle btn-block" type="button" data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false" id="btncity">
+            {{selectedcity}}
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu scrollable-menu col-xs-12" aria-labelledby="dLabel">
+            <li *ngFor="let city of cities" href="#" (click)=citySelect(city)>
+              {{city}}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
 
-    <div class="col-md-4">
-      <div class="dropdown">
-        <button id="state" class="btn btn-primary dropdown-toggle btn-block" type="button" data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false" id="btnstate">
-          {{selectedstate}}
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu scrollable-menu col-xs-12" aria-labelledby="dLabel">
-          <li *ngFor="let state of states" href="#" (click)=s tateSelect(state)>
-            {{state}}
-          </li>
-        </ul>
+
+    <div class="row">
+      <div class="col-xs-12">
+        <form class="form-inline text-center">
+          <fieldset>
+            <div>
+              <select [ngModel]="''" (ngModelChange)="yearselect = $event" name="yearselect" id="yearselect"
+                      class="form-control" placeholder="Select Year (YYYY)" [disabled]="yearentry">
+                <option value="" disabled selected>Select Year (YYYY)</option>
+                <option *ngFor="let y of years" [ngValue]="y" [selected]="y=='years[0]'">{{y}}</option>
+              </select>
+              <button class="btn btn-primary form-control" (click)="showDate()">Alternate time</button>
+            </div>
+            <div *ngIf="showAdvDate" class="form-group">
+              <my-date-picker [options]="myFromDateOptions" [placeholder]="fromdateplaceholder"
+                              (dateChanged)="onFromDateChanged($event)"></my-date-picker>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <my-date-picker [options]="myToDateOptions" [placeholder]="todateplaceholder"
+                              (dateChanged)="onToDateChanged($event)"></my-date-picker>
+              <br>
+              <br>
+            </div>
+            <div>
+              <button type="submit" class="btn btn-primary form-control"
+                      (click)="getTransactions()">Search
+              </button>
+            </div>
+          </fieldset>
+        </form>
       </div>
     </div>
 
-    <div class="col-md-4">
-      <div class="dropdown">
-        <button id="city" class="btn btn-primary dropdown-toggle btn-block" type="button" data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false" id="btncity">
-          {{selectedcity}}
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu scrollable-menu col-xs-12" aria-labelledby="dLabel">
-          <li *ngFor="let city of cities" href="#" (click)=c itySelect(city)>
-            {{city}}
-          </li>
-        </ul>
-      </div>
+    <div *ngIf="showtransactions">
+      <app-transaction
+        [country]="this.selectedcountry"
+        [state]="this.selectedstate"
+        [city]="this.selectedcity"
+        [fromDate]="this.fromDate"
+        [toDate]="this.toDate"
+      ></app-transaction>
     </div>
   </div>
-
-
-  <div class="row">
-    <div class="col-xs-12">
-      <form class="form-inline text-center">
-        <fieldset>
-          <div>
-            <input [(ngModel)]="yearselect" name="yearselect" id="yearselect" placeholder="Select Year (YYYY)"
-                   class="form-control" type="text"
-                   [disabled]="yearentry">
-            <button class="btn btn-primary form-control" (click)="showDate()">Alternate time</button>
-          </div>
-          <div *ngIf="showAdvDate" class="form-group">
-            <my-date-picker [options]="myFromDateOptions" [placeholder]="fromdateplaceholder"
-                            (dateChanged)="onFromDateChanged($event)"></my-date-picker>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <my-date-picker [options]="myToDateOptions" [placeholder]="todateplaceholder"
-                            (dateChanged)="onToDateChanged($event)"></my-date-picker>
-            <br>
-            <br>
-          </div>
-          <div>
-            <button type="submit" class="btn btn-primary form-control" [disabled]="enablesubmit()"
-            (click)="getTransactions()">Search
-            </button>
-          </div>
-        </fieldset>
-      </form>
-    </div>
-  </div>
-
-
-</div>
+</ng-template>
