@@ -1,7 +1,7 @@
-import {Component, OnInit, ChangeDetectorRef, Input} from '@angular/core';
-import {AuthenticationService} from '../../services/authentication.service';
-import {ShoppingcartService} from '../../services/shoppingcart.service'
-import {Router, ActivatedRoute} from '@angular/router';
+import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
+import { AuthenticationService } from '../../services/authentication.service';
+import { ShoppingcartService } from '../../services/shoppingcart.service'
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',

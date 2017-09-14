@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
+import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
 import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/map'
-import {Observable} from "rxjs";
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class AuthenticationService {
@@ -24,7 +24,7 @@ export class AuthenticationService {
     return this.http.post('/api/login', {email: useremail, password: password})
       .map((response) => {
         // login successful if there's a jwt token in the response
-        let token = response.json() && response.json().token;
+        const token = response.json() && response.json().token;
         if (token) {
           this.saveToken(token);
 
@@ -53,7 +53,7 @@ export class AuthenticationService {
       email: user.email
     })
       .map(res => {
-        let token = res.json() && res.json().token;
+        const token = res.json() && res.json().token;
         console.log(token);
         if (token) {
           this.saveToken(token);
@@ -72,9 +72,9 @@ export class AuthenticationService {
   }
 
   isLoggedIn() {
-    var token = this.getToken();
+    const token = this.getToken();
     if (token) {
-      var payload = JSON.parse(atob(token.split('.')[1]));
+      const payload = JSON.parse(atob(token.split('.')[1]));
       return payload.exp > Date.now() / 1000;
 
     }
@@ -86,9 +86,9 @@ export class AuthenticationService {
   // Returns the user if user is logged in, or returns false if not logged in
   currentUser() {
     if (this.isLoggedIn()) {
-      var token = this.getToken;
-      var payload = JSON.parse(atob(token().split('.')[1]));
-      var user = {
+      const token = this.getToken;
+      const payload = JSON.parse(atob(token().split('.')[1]));
+      const user = {
         name: payload.fname,
         email: payload.email,
         role: payload.role

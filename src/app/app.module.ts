@@ -19,23 +19,24 @@ import { RegisterComponent } from './components/register/register.component';
 import { CustomValidator } from './equal-validator.directive';
 import { ShoppingcartComponent } from './components/shoppingcart/shoppingcart.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
-import {PaymentService} from './services/payment.service';
-import {OrderService} from './services/order.service';
+import { PaymentService } from './services/payment.service';
+import { OrderService } from './services/order.service';
 import { SuccessComponent } from './components/common/success.component';
 import { FailureComponent } from './components/common/failure.component';
 import { OrderComponent } from './components/order/order.component';
-import {LogoutComponent} from './components/common/logout.component';
+import { LogoutComponent } from './components/common/logout.component';
 import { MyDatePickerModule } from 'mydatepicker';
 import { InstructionsComponent } from './components/common/instructions.component';
 import { PricingComponent } from './components/common/pricing.component';
-import { InfoComponent } from  './components/common/info.component';
+import { InfoComponent } from './components/common/info.component';
 import { PricechangerComponent } from './components/admin/pricechanger/pricechanger.component';
-import {UsersService} from './services/users.service';
+import { UsersService } from './services/users.service';
 import { ResetpasswordComponent } from './components/admin/resetpassword/resetpassword.component';
 import { ChangepasswordComponent } from './components/admin/changepassword/changepassword.component';
 import { ResetrequestComponent } from './components/resetrequest/resetrequest.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-
+import { TransactionComponent } from './components/admin/transaction/transaction.component';
+import { TransactionService } from './services/transaction.service';
 
 // Define the routes
 
@@ -61,7 +62,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     ResetpasswordComponent,
     ChangepasswordComponent,
     ResetrequestComponent,
-    DashboardComponent
+    DashboardComponent,
+    TransactionComponent
   ],
   imports: [
     BrowserModule,
@@ -77,8 +79,10 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     AuthGuard,
     PaymentService,
     UsersService,
-    OrderService
+    OrderService,
+    TransactionService
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

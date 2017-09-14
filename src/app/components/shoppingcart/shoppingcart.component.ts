@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {ShoppingcartService} from '../../services/shoppingcart.service';
-import {PaymentService} from "../../services/payment.service";
+import { Component, OnInit } from '@angular/core';
+import { ShoppingcartService } from '../../services/shoppingcart.service';
+import { PaymentService } from "../../services/payment.service";
 
-import {SearchQuery} from "../../models/SearchQuery";
-import {Router} from '@angular/router';
+import { SearchQuery } from "../../models/SearchQuery";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-shoppingcart',

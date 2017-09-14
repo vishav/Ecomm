@@ -1,12 +1,12 @@
-import {Injectable} from '@angular/core';
-import {Http, RequestOptions, Headers} from '@angular/http';
+import { Injectable } from '@angular/core';
+import { Http, RequestOptions, Headers } from '@angular/http';
 import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/map'
-import {Observable} from "rxjs";
-import {SearchQuery} from "../models/SearchQuery";
-import {OrderService} from "./order.service";
-import {Router} from '@angular/router';
-import {AuthenticationService} from '../services/authentication.service';
+import { Observable } from "rxjs";
+import { SearchQuery } from "../models/SearchQuery";
+import { OrderService } from "./order.service";
+import { Router } from '@angular/router';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Injectable()
 export class PaymentService {

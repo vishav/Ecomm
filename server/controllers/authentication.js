@@ -1,17 +1,17 @@
-var passport = require( 'passport' );
-var mongoose = require( 'mongoose' );
-var User = mongoose.model( 'User' );
+var passport = require('passport');
+var mongoose = require('mongoose');
+var User = mongoose.model('User');
 
-var sendJSONresponse = function( res, status, content ) {
-  res.status( status );
-  res.json( content );
+var sendJSONresponse = function(res, status, content) {
+  res.status(status);
+  res.json(content);
 };
 
-module.exports.register = function( req, res ) {
-  if ( !req.body.fname || !req.body.email || !req.body.password ) {
-    sendJSONresponse( res, 400, {
+module.exports.register = function(req, res) {
+  if (!req.body.fname || !req.body.email || !req.body.password) {
+    sendJSONresponse(res, 400, {
       message: 'All fields required'
-    } );
+    });
     return;
   }
 
@@ -21,46 +21,46 @@ module.exports.register = function( req, res ) {
   user.lname = req.body.lname;
   user.email = req.body.email;
 
-  user.setPassword( req.body.password );
+  user.setPassword(req.body.password);
 
-  user.save( function( err ) {
+  user.save(function(err) {
     var token;
-    if ( err ) {
-      sendJSONresponse( res, 404, err );
+    if (err) {
+      sendJSONresponse(res, 404, err);
     } else {
       token = user.generateJwt();
-      sendJSONresponse( res, 200, {
+      sendJSONresponse(res, 200, {
         token: token
-      } );
+      });
     }
-  } );
+  });
 
 };
 
-module.exports.login = function( req, res ) {
-  if ( !req.body.email || !req.body.password ) {
-    sendJSONresponse( res, 400, {
+module.exports.login = function(req, res) {
+  if (!req.body.email || !req.body.password) {
+    sendJSONresponse(res, 400, {
       message: 'All fields required'
-    } );
+    });
     return;
   }
 
-  passport.authenticate( 'local', function( err, user, info ) {
+  passport.authenticate('local', function(err, user, info) {
     var token;
 
-    if ( err ) {
-      sendJSONresponse( res, 404, err );
+    if (err) {
+      sendJSONresponse(res, 404, err);
       return;
     }
 
-    if ( user ) {
+    if (user) {
       token = user.generateJwt();
-      sendJSONresponse( res, 200, {
+      sendJSONresponse(res, 200, {
         token: token
-      } );
+      });
     } else {
-      sendJSONresponse( res, 401, info );
+      sendJSONresponse(res, 401, info);
     }
-  } )( req, res );
+  })(req, res);
 
 };

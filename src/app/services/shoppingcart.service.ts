@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
-import {Http, Headers, RequestOptions} from '@angular/http';
+import { Injectable } from '@angular/core';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/map'
-import {Observable} from "rxjs";
+import { Observable } from "rxjs";
 
-import {SearchQuery} from '../models/SearchQuery';
-import {AuthenticationService} from '../services/authentication.service';
+import { SearchQuery } from '../models/SearchQuery';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Injectable()
 export class ShoppingcartService {

@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {ShoppingcartService} from "./shoppingcart.service";
-import {AuthenticationService} from "./authentication.service";
-import {Headers, RequestOptions, Http} from '@angular/http';
-import {Observable} from 'rxjs'
-import {Router} from '@angular/router'
+import { Injectable } from '@angular/core';
+import { ShoppingcartService } from "./shoppingcart.service";
+import { AuthenticationService } from "./authentication.service";
+import { Headers, RequestOptions, Http } from '@angular/http';
+import { Observable } from 'rxjs'
+import { Router } from '@angular/router'
 
 @Injectable()
 export class OrderService {

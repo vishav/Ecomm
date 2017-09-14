@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
-import {HselectionService} from '../../services/hselection.service'
-import {ShoppingcartService} from '../../services/shoppingcart.service'
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HselectionService } from '../../services/hselection.service'
+import { ShoppingcartService } from '../../services/shoppingcart.service'
 
 @Component({
   selector: 'app-holidaylist',

@@ -1,6 +1,6 @@
-import {TestBed, inject} from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
 
-import {HselectionService} from './hselection.service';
+import { HselectionService } from './hselection.service';
 
 describe('HselectionService', () => {
   beforeEach(() => {

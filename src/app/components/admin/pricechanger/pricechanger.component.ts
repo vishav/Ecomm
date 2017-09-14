@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {PaymentService} from "../../../services/payment.service";
-import {UsersService} from "../../../services/users.service";
+import { Component, OnInit } from '@angular/core';
+import { PaymentService } from "../../../services/payment.service";
+import { UsersService } from "../../../services/users.service";
 
 @Component({
   selector: 'app-pricechanger',

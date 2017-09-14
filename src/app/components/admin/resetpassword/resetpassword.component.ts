@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {UsersService} from "../../../services/users.service";
+import { Component, OnInit } from '@angular/core';
+import { UsersService } from "../../../services/users.service";
 //const uuidv1 = require('uuid/v1');
 //import * as uuidv1 from 'uuid/v1.js';
 

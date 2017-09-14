@@ -1,4 +1,4 @@
-import {SearchQuery} from "./SearchQuery";
+import { SearchQuery } from "./SearchQuery";
 
 export interface OrderItem {
   paymentid: string,

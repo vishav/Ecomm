@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import {PaymentService} from '../../services/payment.service';
-import {Pricing} from "../../models/Pricing";
-import {Observable} from "rxjs/Observable";
+import { PaymentService } from '../../services/payment.service';
+import { Pricing } from "../../models/Pricing";
+import { Observable } from "rxjs/Observable";
 
 @Component({
   moduleId: module.id,

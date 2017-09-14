@@ -1,6 +1,6 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {PricechangerComponent} from './pricechanger.component';
+import { PricechangerComponent } from './pricechanger.component';
 
 describe('PricechangerComponent', () => {
   let component: PricechangerComponent;

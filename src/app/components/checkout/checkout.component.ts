@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {SearchQuery} from "../../models/SearchQuery";
-import {ShoppingcartService} from "../../services/shoppingcart.service";
-import {PaymentService} from "../../services/payment.service";
+import { Component, OnInit } from '@angular/core';
+import { SearchQuery } from "../../models/SearchQuery";
+import { ShoppingcartService } from "../../services/shoppingcart.service";
+import { PaymentService } from "../../services/payment.service";
 
 @Component({
   selector: 'app-checkout',
