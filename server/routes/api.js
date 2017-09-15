@@ -155,7 +155,7 @@ router.get('/uuiduser/:requesteduuid', ctrlUsers.getUserByUUID);
 router.post('/changepassword', ctrlUsers.changePassword);
 
 //added auth to secure the transactions
-router.get('/transactions/:country/:state/:city/:fromDate/:toDate', auth,
+router.get('/transactions/:country/:state/:city/:model/:fromDate/:toDate', auth,
   ctrlTransaction.getTransactions);
 
 module.exports = router;

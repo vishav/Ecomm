@@ -13,7 +13,8 @@ export class TransactionService {
     const headers = new Headers({'Accept': 'application/json'});
     headers.append('Authorization', 'Bearer ' + this.authentication.getToken());
     const options = new RequestOptions({headers: headers});
-    return this.http.get('/api/transactions/' + data.country + '/' + data.state + '/' + data.city + '/' + data.fromDate + '/' + data.toDate, options)
-      .map(res => res.json());
+    const model = (JSON.stringify(data.model));
+    const parameter = data.country + '/' + data.state + '/' + data.city + '/' + model + '/' + data.fromDate + '/' + data.toDate;
+    return this.http.get('/api/transactions/' + parameter, options).map(res => res.json());
   }
 }

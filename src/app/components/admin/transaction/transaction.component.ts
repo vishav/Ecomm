@@ -13,12 +13,7 @@ export class TransactionComponent implements OnInit {
   @Input() city: any;
   @Input() fromDate: any = null;
   @Input() toDate: any = null;
-  fromyear: number;
-  frommonth: number;
-  fromday: number;
-  toyear: number;
-  tomonth: number;
-  today: number;
+  @Input() model: any = {};
   errorMessage: string;
   transactions: any = [];
   role: string;
@@ -45,38 +40,13 @@ export class TransactionComponent implements OnInit {
   }
 
   ngOnInit() {
-/*    if (this.fromDate) {
-      this.fromyear = this.fromDate.getFullYear();
-      this.frommonth = this.fromDate.getMonth() + 1;
-      this.fromday = this.fromDate.getDate();
-    }else {
-      this.fromyear = -1;
-      this.frommonth = -1;
-      this.fromday = -1;
-    }
-
-    if (this.toDate) {
-      this.toyear = this.toDate.getFullYear();
-      this.tomonth = this.toDate.getMonth() + 1;
-      this.today = this.toDate.getDate();
-    }else {
-      this.toyear = -1;
-      this.tomonth = -1;
-      this.today = -1;
-    }*/
-
     const data = {
       country: this.country,
       state: this.state,
       city: this.city,
-      fromYear: this.fromyear,
-      fromMonth: this.frommonth,
-      fromDay: this.fromday,
-      toYear: this.toyear,
-      toMonth: this.tomonth,
-      toDay: this.today,
       fromDate: this.fromDate,
-      toDate: this.toDate
+      toDate: this.toDate,
+      model: this.model
     };
     this.transactionservice.getTransactions(data)
       .subscribe(transactions => {

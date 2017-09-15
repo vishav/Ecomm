@@ -62,6 +62,7 @@ export class DashboardComponent implements OnInit {
   unautherrormessage = 'You are not authorized to view this page.';
   isloggedin: boolean;
   showtransactions = false;
+  model: any = {};
 
   constructor(private authenticationService: AuthenticationService,
               private hselectionService: HselectionService,
@@ -153,34 +154,10 @@ export class DashboardComponent implements OnInit {
 
   getTransactions() {
     this.showtransactions = true;
-/*    if (!this.selectedcountry) {
-      this.selectedcountry = 'none';
-    }
-    if (!this.selectedstate) {
-      this.selectedstate = 'none';
-    }
-    if (!this.selectedcity) {
-      this.selectedcity = 'none';
-    }
-    if (!this.fromDate) {
-      this.fromDate.year = 'none';
-      this.fromDate.month = 'none';
-      this.fromDate.day = 'none';
-    }
-    if (!this.toDate) {
-      this.toDate.year = 'none';
-      this.toDate.month = 'none';
-      this.toDate.day = 'none';
-    }*/
-/*    if (this.yearentry) {
-      this.router.navigate(['/transaction', this.selectedcountry, this.selectedstate, this.selectedcity, this.fromDate.year, this.fromDate.month, this.fromDate.day, this.toDate.year, this.toDate.month, this.toDate.day])
-    } else {*/
       if (this.yearselect) {
         this.fromDate = new Date(this.yearselect, 0, 1);
         this.toDate = new Date(this.yearselect, 11, 31);
       }
-      // this.router.navigate(['/transaction', this.selectedcountry, this.selectedstate, this.selectedcity, this.yearselect, '1', '1', this.yearselect, '12', '31']);
-    // }
   }
 
   resetForm(){

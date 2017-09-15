@@ -23,21 +23,7 @@ module.exports.saveOrder = function(req, res) {
 
     var order = new Order();
     var today = new Date();
-/*    var dd = today.getDate();
-    var mm = today.getMonth() + 1; //January is 0!
-    var yyyy = today.getFullYear();*/
 
-/*    if (dd < 10) {
-      dd = '0' + dd
-    }
-
-    if (mm < 10) {
-      mm = '0' + mm
-    }
-
-    today = mm + '/' + dd + '/' + yyyy;*/
-
-    // today = new Date(yyyy,mm,dd);
     order.paymentid = req.body.paymentid;
     order.useremail = req.body.useremail;
     order.cartItems = req.body.cartItems;
@@ -65,7 +51,6 @@ module.exports.getOrders = function(req, res) {
   getAuthor(req, res, function(req, res, username) {
 
     console.log('getting orders from db for user...' + req.params.useremail);
-    // console.log(JSON.stringify(req.body));
     if (!req.params || !req.params.useremail) {
       console.log('Error while getting cart from db: useremail missing');
       sendJSONresponse(res, 400, {
@@ -75,7 +60,6 @@ module.exports.getOrders = function(req, res) {
     }
 
     Order.find({ useremail: req.params.useremail }).exec(function(error, userorders) {
-      // console.log("userorders: " + userorders);
       if (error)
         sendJSONresponse(res, 404, error);
       if (!userorders)
