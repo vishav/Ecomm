@@ -79,7 +79,7 @@ export class HselectionComponent implements OnInit {
     this.hselectionService.getYear().subscribe(year => {
       this.currentyear = year.year;
     });
-    this.years = Global.getYears(50);
+    this.years = Global.getYears(100);
   }
 
   countrySelect(country) {

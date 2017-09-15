@@ -45,17 +45,25 @@ export class TransactionComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.fromDate) {
+/*    if (this.fromDate) {
       this.fromyear = this.fromDate.getFullYear();
       this.frommonth = this.fromDate.getMonth() + 1;
       this.fromday = this.fromDate.getDate();
+    }else {
+      this.fromyear = -1;
+      this.frommonth = -1;
+      this.fromday = -1;
     }
 
     if (this.toDate) {
       this.toyear = this.toDate.getFullYear();
       this.tomonth = this.toDate.getMonth() + 1;
       this.today = this.toDate.getDate();
-    }
+    }else {
+      this.toyear = -1;
+      this.tomonth = -1;
+      this.today = -1;
+    }*/
 
     const data = {
       country: this.country,
@@ -66,23 +74,23 @@ export class TransactionComponent implements OnInit {
       fromDay: this.fromday,
       toYear: this.toyear,
       toMonth: this.tomonth,
-      toDay: this.today
+      toDay: this.today,
+      fromDate: this.fromDate,
+      toDate: this.toDate
     };
-
     this.transactionservice.getTransactions(data)
       .subscribe(transactions => {
           console.log(transactions);
-          this.transactions = transactions.theList;
+          this.transactions = transactions;
         },
         error => {
-          this.errorMessage = error.json().errormessage;
-          console.log(this.errorMessage);
-
-        });
+          this.errorMessage = <any>error;
+          console.log('error:', this.errorMessage);
+        }
+      );
   }
 
   setindex(index) {
-    console.log(index);
     this.index = index;
   }
 }

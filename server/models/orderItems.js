@@ -29,7 +29,7 @@ var orderSchema = new mongoose.Schema({
     required: true
   },
   date: {
-    type: String
+    type: Date
   }
 });
 

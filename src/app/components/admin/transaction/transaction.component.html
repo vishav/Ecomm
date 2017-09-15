@@ -21,9 +21,8 @@
       </thead>
       <tbody>
       <tr class="warning" *ngFor="let transaction of transactions; let idx = index">
-        <td>{{transaction.date}}</td>
-        <td>{{transaction.name}}</td>
-        <td>{{transaction.orderdetails}}</td>
+        <td>{{transaction.date | date: 'yMd'}}</td>
+        <td>{{transaction.useremail}}</td>
         <td>
           <button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal"
                   (click)="setindex(idx)">Order Detail
@@ -41,7 +40,6 @@
           <h4 class="modal-title">Order Detail</h4>
         </div>
         <div class="modal-body">
-          <div class="container well well-lg">
             <table class="table table-striped table-hover ">
               <thead>
               <tr>
@@ -53,26 +51,24 @@
               </tr>
               </thead>
               <tbody>
-              <tr class="warning" *ngFor="let transaction of transactions[this.index]">
-                <td>{{transaction.country}}</td>
-                <td *ngIf="transaction.state != 'State'">{{transaction.state}}</td>
-                <td *ngIf="transaction.state == 'State'">No state Selected</td>
-                <td *ngIf="transaction.city != 'City'">{{transaction.city}}</td>
-                <td *ngIf="transaction.city == 'City'">No city selected</td>
-                <td>{{transaction.fromMonth}}/{{transaction.fromDay}}/{{transaction.fromYear}}&nbsp;-&nbsp;{{transaction.toMonth}}/{{transaction.toDay}}/{{transaction.toYear}}</td>
-                <td>{{transaction.price}}</td>
-              </tr>
-              <tr class="info">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Total:</td>
-                <!--<td>{{transactions[this.index].totalprice | currency:'USD':true:'.2'}}</td>-->
-                <td></td>
-              </tr>
+                <tr class="warning" *ngFor="let item of transactions[this.index]?.cartItems">
+                  <td *ngIf="item">{{item.country}}</td>
+                  <td *ngIf="item.state != 'State'">{{transaction.state}}</td>
+                  <td *ngIf="item.state == 'State'">No state Selected</td>
+                  <td *ngIf="item.city != 'City'">{{transaction.city}}</td>
+                  <td *ngIf="item.city == 'City'">No city selected</td>
+                  <td>{{item.fromMonth}}/{{item.fromDay}}/{{item.fromYear}}&nbsp;-&nbsp;{{item.toMonth}}/{{item.toDay}}/{{item.toYear}}</td>
+                  <td></td>
+                </tr>
+                <tr class="info">
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>Total:</td>
+                  <td>{{transactions[this.index]?.total | currency:'USD':true:'.2'}}</td>
+                </tr>
               </tbody>
             </table>
-          </div>
         </div>
         <div class="modal-footer">
         </div>

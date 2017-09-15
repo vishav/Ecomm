@@ -58,8 +58,31 @@
       </div>
     </div>
 
+    <div class="container">
+      <div class="row col-md-12">
+        <div class="form-group col-xs-6">
+          <input type="text" placeholder="First name" />
+        </div>
+        <div class="form-group col-xs-6">
+          <input type="text" placeholder="Last name" />
+        </div>
+      </div>
+    </div>
 
-    <div class="row">
+    <div class="container currecncycontainer">
+      <div class="form-row form-inline col-md-12">
+        <div class="input-group col-xs-5">
+          <span class="input-group-addon">$</span>
+          <input type="text" placeholder="min price">
+        </div>
+        <div class="input-group col-xs-5">
+          <span class="input-group-addon">$</span>
+          <input type="text" placeholder="max price">
+        </div>
+      </div>
+    </div>
+
+      <div class="row">
       <div class="col-xs-12">
         <form class="form-inline text-center">
           <fieldset>
@@ -83,6 +106,9 @@
             <div>
               <button type="submit" class="btn btn-primary form-control"
                       (click)="getTransactions()">Search
+              </button>
+              <button type="submit" class="btn btn-primary form-control"
+                      (click)="resetForms()">Reset
               </button>
             </div>
           </fieldset>

@@ -37,7 +37,7 @@ router.get('/countries', (req, res) => {
       url: contriesUrl,
       method: 'Get'
     },
-    function(error, apires, body) {
+    function (error, apires, body) {
       if (error) {
         res.status(500).send(error);
         return;
@@ -60,7 +60,7 @@ router.get('/countryStates/:country', (req, res) => {
       url: statesUrl + req.params.country,
       method: 'Get'
     },
-    function(error, apires, body) {
+    function (error, apires, body) {
       if (error) {
         res.status(500).send(error);
         return;
@@ -82,7 +82,7 @@ router.get('/countryCities/:country', (req, res) => {
       url: countryCitiesUrl + req.params.country,
       method: 'Get'
     },
-    function(error, apires, body) {
+    function (error, apires, body) {
       if (error) {
         res.status(500).send(error);
         return;
@@ -104,7 +104,7 @@ router.get('/countryStateCities/:state/:country', (req, res) => {
       url: citiesUrl + req.params.country + '/' + req.params.state,
       method: 'Get'
     },
-    function(error, apires, body) {
+    function (error, apires, body) {
       if (error) {
         res.status(500).send(error);
         return;
@@ -155,7 +155,7 @@ router.get('/uuiduser/:requesteduuid', ctrlUsers.getUserByUUID);
 router.post('/changepassword', ctrlUsers.changePassword);
 
 //added auth to secure the transactions
-router.get('/tranactions/:country/:state/:city/:fromyear/:frommonth/:fromday/:toyear/:tomonth/:today', auth,
+router.get('/transactions/:country/:state/:city/:fromDate/:toDate', auth,
   ctrlTransaction.getTransactions);
 
 module.exports = router;

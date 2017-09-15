@@ -23,11 +23,11 @@ module.exports.saveOrder = function(req, res) {
 
     var order = new Order();
     var today = new Date();
-    var dd = today.getDate();
+/*    var dd = today.getDate();
     var mm = today.getMonth() + 1; //January is 0!
-    var yyyy = today.getFullYear();
+    var yyyy = today.getFullYear();*/
 
-    if (dd < 10) {
+/*    if (dd < 10) {
       dd = '0' + dd
     }
 
@@ -35,8 +35,9 @@ module.exports.saveOrder = function(req, res) {
       mm = '0' + mm
     }
 
-    today = mm + '/' + dd + '/' + yyyy;
+    today = mm + '/' + dd + '/' + yyyy;*/
 
+    // today = new Date(yyyy,mm,dd);
     order.paymentid = req.body.paymentid;
     order.useremail = req.body.useremail;
     order.cartItems = req.body.cartItems;

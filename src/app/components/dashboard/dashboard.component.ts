@@ -98,6 +98,8 @@ export class DashboardComponent implements OnInit {
       this.currentyear = year.year;
     });
     this.years = Global.getYears(0);
+    this.fromDate = new Date(this.years[this.years.length - 1]);
+    this.toDate = new Date();
   }
 
   countrySelect(country) {
@@ -130,8 +132,6 @@ export class DashboardComponent implements OnInit {
   showDate() {
     this.showAdvDate = !this.showAdvDate;
     this.yearselect = null;
-    this.fromDate = null;
-    this.toDate = null;
     this.yearentry = !this.yearentry;
   }
 
@@ -140,7 +140,7 @@ export class DashboardComponent implements OnInit {
     const toOptions = JSON.parse(JSON.stringify(this.myToDateOptions));
     toOptions.disableUntil = {year: event.date.year, month: event.date.month, day: event.date.day};
     this.myToDateOptions = toOptions;
-    this.fromDate = event.date;
+    this.fromDate = new Date(event.jsdate);
   }
 
   onToDateChanged(event: IMyDateModel) {
@@ -148,11 +148,11 @@ export class DashboardComponent implements OnInit {
     const fromOptions = JSON.parse(JSON.stringify(this.myFromDateOptions));
     fromOptions.disableSince = {year: event.date.year, month: event.date.month, day: event.date.day};
     this.myFromDateOptions = fromOptions;
-    this.toDate = event.date;
+    this.toDate = new Date(event.jsdate);
   }
 
   getTransactions() {
-    this.showtransactions = !this.showtransactions;
+    this.showtransactions = true;
 /*    if (!this.selectedcountry) {
       this.selectedcountry = 'none';
     }
@@ -181,5 +181,9 @@ export class DashboardComponent implements OnInit {
       }
       // this.router.navigate(['/transaction', this.selectedcountry, this.selectedstate, this.selectedcity, this.yearselect, '1', '1', this.yearselect, '12', '31']);
     // }
+  }
+
+  resetForm(){
+    this.showtransactions = false;
   }
 }
