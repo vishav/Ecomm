@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { TransactionService } from '../../../services/transaction.service';
 import { AuthenticationService } from '../../../services/authentication.service';
 
@@ -7,7 +7,7 @@ import { AuthenticationService } from '../../../services/authentication.service'
   templateUrl: './transaction.component.html',
   styleUrls: ['./transaction.component.css']
 })
-export class TransactionComponent implements OnInit {
+export class TransactionComponent implements OnChanges {
   @Input() country: any;
   @Input() state: any;
   @Input() city: any;
@@ -20,6 +20,7 @@ export class TransactionComponent implements OnInit {
   currentUser: any;
   notloggederrormessage = 'To view this page, you must login first.';
   unautherrormessage = 'You are not authorized to view this page';
+  norecordfoundsmessage = 'No records found.';
   isloggedin: boolean;
   index: any =  null;
 
@@ -39,7 +40,7 @@ export class TransactionComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnChanges() {
     const data = {
       country: this.country,
       state: this.state,

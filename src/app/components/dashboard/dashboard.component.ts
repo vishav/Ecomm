@@ -63,6 +63,13 @@ export class DashboardComponent implements OnInit {
   isloggedin: boolean;
   showtransactions = false;
   model: any = {};
+  tempcountry: string;
+  tempstate: string;
+  tempcity: string;
+  tempfromDate: any = null;
+  temptoDate: any = null;
+  tempmodel: any = {};
+
 
   constructor(private authenticationService: AuthenticationService,
               private hselectionService: HselectionService,
@@ -154,13 +161,18 @@ export class DashboardComponent implements OnInit {
 
   getTransactions() {
     this.showtransactions = true;
-      if (this.yearselect) {
-        this.fromDate = new Date(this.yearselect, 0, 1);
-        this.toDate = new Date(this.yearselect, 11, 31);
-      }
-  }
-
-  resetForm(){
-    this.showtransactions = false;
+    if (this.yearselect) {
+      this.fromDate = new Date(this.yearselect, 0, 1);
+      this.toDate = new Date(this.yearselect, 11, 31);
+    }
+    this.tempcountry = this.selectedcountry;
+    this.tempstate = this.selectedstate;
+    this.tempcity = this.selectedcity;
+    this.tempfromDate = this.fromDate;
+    this.temptoDate = this.toDate;
+    this.tempmodel = {};
+    this.tempmodel.fname = this.model.fname;
+    this.tempmodel.lname = this.model.lname;
+    this.tempmodel.useremail = this.model.useremail;
   }
 }

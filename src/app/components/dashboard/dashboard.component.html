@@ -105,12 +105,12 @@
 
     <div *ngIf="showtransactions">
       <app-transaction
-        [country]="this.selectedcountry"
-        [state]="this.selectedstate"
-        [city]="this.selectedcity"
-        [fromDate]="this.fromDate"
-        [toDate]="this.toDate"
-        [model]="this.model"
+        [country]="this.tempcountry"
+        [state]="this.tempstate"
+        [city]="this.tempcity"
+        [fromDate]="this.tempfromDate"
+        [toDate]="this.temptoDate"
+        [model]="this.tempmodel"
       ></app-transaction>
     </div>
   </div>
