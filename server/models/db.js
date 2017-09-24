@@ -8,47 +8,50 @@ if (process.env.NODE_ENV === 'production') {
   dbURI = process.env.MONGOLAB_URI;
 }
 
-mongoose.connect(dbURI);
+// Use bluebird
+mongoose.Promise = require('bluebird');
+
+mongoose.connect(dbURI, { useMongoClient: true });
 
 //logging event handlers
-mongoose.connection.on('connected', function() {
+mongoose.connection.on('connected', function () {
   console.log('Mongoose connected to ' + dbURI)
 });
 
-mongoose.connection.on('error', function(err) {
+mongoose.connection.on('error', function (err) {
   console.log('Mongoose connection error: ' + err)
 });
 
-mongoose.connection.on('disconnected', function() {
+mongoose.connection.on('disconnected', function () {
   console.log('Mongoose disconnected from ' + dbURI)
 });
 
 // Function to close the connections when the application
 // is stopped.
-var gracefulShutdown = function(msg, callback) {
-  mongoose.connection.close(function() {
+var gracefulShutdown = function (msg, callback) {
+  mongoose.connection.close(function () {
     console.log('Mongoose disconnected through ' + msg);
     callback();
   });
 };
 
 // for nodemon restarts
-process.once('SIGUSR2', function() {
-  gracefulShutdown('nodemon restart', function() {
+process.once('SIGUSR2', function () {
+  gracefulShutdown('nodemon restart', function () {
     process.kill(process.pid, 'SIGUSR2');
   });
 });
 
 // for app termination
-process.on('SIGINT', function() {
-  gracefulShutdown('app termination', function() {
+process.on('SIGINT', function () {
+  gracefulShutdown('app termination', function () {
     process.exit(0);
   });
 });
 
 // for heroku app termination
-process.on('SIGTERM', function() {
-  gracefulShutdown('Heroku app shutdown', function() {
+process.on('SIGTERM', function () {
+  gracefulShutdown('Heroku app shutdown', function () {
     process.exit(0);
   });
 });
