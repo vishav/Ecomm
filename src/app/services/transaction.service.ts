@@ -17,4 +17,11 @@ export class TransactionService {
     const parameter = data.country + '/' + data.state + '/' + data.city + '/' + model + '/' + data.fromDate + '/' + data.toDate;
     return this.http.get('/api/transactions/' + parameter, options).map(res => res.json());
   }
+
+/*  downloadTransactions(){
+    const headers = new Headers({'Accept': 'application/json'});
+    headers.append('Authorization', 'Bearer ' + this.authentication.getToken());
+    const options = new RequestOptions({headers: headers});
+    return this.http.get('/api/download/', options).map(res => res.json());
+  }*/
 }

@@ -61,8 +61,46 @@ module.exports.getTransactions = async function (req, res) {
     orderparameters.useremail = { $in: useremaillist };
   }
 
+  var details;
   var query = Order.find(orderparameters).where('date').gt(fromDate).lt(toDate).where('cartItems').elemMatch(data).select('date total useremail cartItems').sort({ date: -1 });
-  var orders = await query.exec(function (error, result) {
+  await query.lean().exec(function (error, result) {
+    details = result;
+    if (error) {
+      sendJSONresponse(res, 404, error);
+    } else if (!result || result.length === 0) {
+      sendJSONresponse(res, 200, []);
+    }
+  });
+  var det = [];
+  for (var i = 0; i < details.length; i++){
+    if (userparameters !== {}) {
+      var detailsquery = User.findOne({ email: details[i].useremail }).select('fname lname');
+      await detailsquery.exec(function (error, name) {
+        if (name) {
+          fname = name.fname;
+          lname = name.lname;
+        }
+      });
+    }
+    det.push({ fname:fname,lname:lname,date:details[i].date,useremail:details[i].useremail,cartItems:details[i].cartItems, total:details[i].total });
+    fname = null;
+    lname = null;
+  }
+  sendJSONresponse(res, 200, det);
+};
+
+/*module.exports.downloadTransactions = function (req, res) {
+  // Require library
+  var excel = require('excel4node');
+
+  // Create a new instance of a Workbook class
+  var workbook = new excel.Workbook();
+
+  // Add Worksheets to the workbook
+  var worksheet = workbook.addWorksheet('Order');
+
+  var query = Order.find(orderparameters).where('date').gt(fromDate).lt(toDate).where('cartItems').elemMatch(data).select('date total useremail cartItems').sort({ date: -1 });
+  var orders = query.exec(function (error, result) {
     if (error) {
       sendJSONresponse(res, 404, error);
     } else if (!result || result.length === 0) {
@@ -71,5 +109,4 @@ module.exports.getTransactions = async function (req, res) {
       sendJSONresponse(res, 200, result);
     }
   });
-};
-
+};*/

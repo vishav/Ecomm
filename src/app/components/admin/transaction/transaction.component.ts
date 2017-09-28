@@ -22,7 +22,7 @@ export class TransactionComponent implements OnChanges {
   unautherrormessage = 'You are not authorized to view this page';
   norecordfoundsmessage = 'No records found.';
   isloggedin: boolean;
-  index: any =  null;
+  index: any = null;
 
   constructor(private authenticationService: AuthenticationService,
               private transactionservice: TransactionService) {
@@ -64,4 +64,17 @@ export class TransactionComponent implements OnChanges {
   setindex(index) {
     this.index = index;
   }
+
+/*  downloadTransactions() {
+    this.transactionservice.downloadTransactions()
+      .subscribe(transactions => {
+          console.log(transactions);
+          this.transactions = transactions;
+        },
+        error => {
+          this.errorMessage = <any>error;
+          console.log('error:', this.errorMessage);
+        }
+      );
+  }*/
 }
