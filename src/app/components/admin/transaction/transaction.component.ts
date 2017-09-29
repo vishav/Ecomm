@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { TransactionService } from '../../../services/transaction.service';
 import { AuthenticationService } from '../../../services/authentication.service';
+import {saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-transaction',
@@ -65,16 +66,34 @@ export class TransactionComponent implements OnChanges {
     this.index = index;
   }
 
-/*  downloadTransactions() {
-    this.transactionservice.downloadTransactions()
-      .subscribe(transactions => {
-          console.log(transactions);
-          this.transactions = transactions;
+  downloadTransactions() {
+    const data = {
+      country: this.country,
+      state: this.state,
+      city: this.city,
+      fromDate: this.fromDate,
+      toDate: this.toDate,
+      model: this.model
+    };
+    this.transactionservice.downloadTransactions(data)
+      .subscribe(transactiondetails => {
+          this.downloadFile(transactiondetails);
+          console.log(transactiondetails);
         },
         error => {
           this.errorMessage = <any>error;
           console.log('error:', this.errorMessage);
         }
       );
-  }*/
+  }
+
+  downloadFile(data){
+    const date = new Date();
+    let currenttime = (date.getMonth() + 1) + '-' + date.getDate() + '-' + date.getFullYear();
+    currenttime += 'T' + date.getHours() + ':' + date.getMinutes();
+    const filename = 'Transaction_Details_' + currenttime + '.xlsx';
+    const blob = new Blob([data._body], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    saveAs(blob, filename);
+    console.log('file downloaded');
+  }
 }

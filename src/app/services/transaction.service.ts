@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Http, RequestOptions, Headers } from '@angular/http';
+import { Http, RequestOptions, Headers, ResponseContentType } from '@angular/http';
 import { AuthenticationService } from './authentication.service';
 import 'rxjs/add/operator/map';
 
@@ -18,10 +18,12 @@ export class TransactionService {
     return this.http.get('/api/transactions/' + parameter, options).map(res => res.json());
   }
 
-/*  downloadTransactions(){
-    const headers = new Headers({'Accept': 'application/json'});
+  downloadTransactions(data){
+    const headers = new Headers({'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
     headers.append('Authorization', 'Bearer ' + this.authentication.getToken());
-    const options = new RequestOptions({headers: headers});
-    return this.http.get('/api/download/', options).map(res => res.json());
-  }*/
+    const options = new RequestOptions({headers: headers, responseType: ResponseContentType.Blob});
+    const model = (JSON.stringify(data.model));
+    const parameter = data.country + '/' + data.state + '/' + data.city + '/' + model + '/' + data.fromDate + '/' + data.toDate;
+    return this.http.get('/api/download/' + parameter, options);
+  }
 }

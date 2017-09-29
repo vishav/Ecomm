@@ -3,7 +3,6 @@
   "browser"  : true,
   "eqeqeq"   : false,
   "eqnull"   : true,
-  "es3"      : true,
   "expr"     : true,
   "jquery"   : true,
   "latedef"  : true,
@@ -12,5 +11,6 @@
   "strict"   : true,
   "undef"    : true,
   "unused"   : true,
-  "node"     : true
+  "node"     : true,
+  "esversion": 6
 }

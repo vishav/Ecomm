@@ -158,7 +158,7 @@ router.post('/changepassword', ctrlUsers.changePassword);
 router.get('/transactions/:country/:state/:city/:model/:fromDate/:toDate', auth,
   ctrlTransaction.getTransactions);
 
-/*//added auth to download the transactions
-router.get('/download', auth, ctrlTransaction.downloadTransactions);*/
+//added auth to download the transactions
+router.get('/download/:country/:state/:city/:model/:fromDate/:toDate', auth, ctrlTransaction.downloadTransactions);
 
 module.exports = router;
