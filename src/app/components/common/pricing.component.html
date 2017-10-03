@@ -2,8 +2,41 @@
 <div class="container well well-lg ">
 
   <h4>Pricing Details.</h4>
-  Price Per Country Per Year: ${{(pricing | async)?.countryPrice}} <br/>
-  Price Per State Per Year: ${{(pricing | async)?.statePrice}} <br/>
-  Price Per City Per Year: ${{(pricing | async)?.cityPrice}} <br/>
-  Minimum Price Per Item: ${{(pricing | async)?.minPrice}} <br/>
+
+  <div *ngIf="role !='administrator'; else authcheckblock ">
+    Price Per Country Per Year: ${{pricing?.countryPrice}} <br/>
+    Price Per State Per Year: ${{pricing?.statePrice}} <br/>
+    Price Per City Per Year: ${{pricing?.cityPrice}} <br/>
+    Minimum Price Per Item: ${{pricing?.minPrice}} <br/>
+  </div>
+  <ng-template #authcheckblock>
+    <div class="alert alert-success" *ngIf="successmessage" role="alert">
+      {{successmessage}}
+    </div>
+    <div class="alert alert-danger" *ngIf="failuremessage" role="alert">
+      {{failuremessage}}
+    </div>
+    <div *ngIf="role =='administrator'">
+      <form name="form" (ngSubmit)="f.form.valid && savePricing()" #f="ngForm" novalidate>
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !countryPrice.valid }">
+          <label for="countryPrice">Price Per Country Per Year: $</label>
+          <input type="text" class="form-control" name="countryPrice" [(ngModel)]="pricing.countryPrice" #countryPrice="ngModel" required/>
+          <div *ngIf="f.submitted && !countryPrice.valid" class="help-block">Price Per Country Per Year is required</div>
+          <label for="statePrice">Price Per State Per Year: $</label>
+          <input type="text" class="form-control" name="statePrice" [(ngModel)]="pricing.statePrice" #statePrice="ngModel" required/>
+          <div *ngIf="f.submitted && !statePrice.valid" class="help-block">Price Per State Per Year is required</div>
+          <label for="cityPrice">Price Per City Per Year: $</label>
+          <input type="text" class="form-control" name="cityPrice" [(ngModel)]="pricing.cityPrice" #cityPrice="ngModel" required/>
+          <div *ngIf="f.submitted && !cityPrice.valid" class="help-block">Price Per City Per Year is required</div>
+          <label for="minPrice">Minimum Price Per Item: $</label>
+          <input type="text" class="form-control" name="minPrice" [(ngModel)]="pricing.minPrice" #minPrice="ngModel" required/>
+          <div *ngIf="f.submitted && !minPrice.valid" class="help-block">Minimum Price Per Item is required</div>
+        </div>
+        <div class="form-group">
+          <button [disabled]="loading" class="btn btn-primary">Save</button>
+        </div>
+        <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+      </form>
+    </div>
+  </ng-template>
 </div>

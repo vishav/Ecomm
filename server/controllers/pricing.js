@@ -6,12 +6,12 @@ var User = mongoose.model('User');
 var Pricing = mongoose.model('Pricing');
 
 
-var sendJSONresponse = function(res, status, content) {
+var sendJSONresponse = function (res, status, content) {
   res.status(status);
   res.json(content);
 };
 
-module.exports.getPricing = function(req, res) {
+module.exports.getPricing = function (req, res) {
   console.log('getPricing called');
   //getAuthor(req,res, function(req, res,username) {
 
@@ -19,7 +19,7 @@ module.exports.getPricing = function(req, res) {
   // console.log(JSON.stringify(req.body));
   console.log(Pricing.collection.collectionName);
 
-  Pricing.findOne({}, function(error, pricings) {
+  Pricing.findOne({}, function (error, pricings) {
     console.log('pricings: ' + pricings);
     if (error)
       sendJSONresponse(res, 404, error);
@@ -34,12 +34,26 @@ module.exports.getPricing = function(req, res) {
 };
 
 
-var getAuthor = function(req, res, callback) {
+module.exports.savePricing = function (req, res) {
+  console.log('savePricing called');
+
+  Pricing.findOneAndUpdate({}, req.body.parameters, { upsert:true }, function (error, pricings) {
+    if (error)
+      sendJSONresponse(res, 404, error);
+    else
+      sendJSONresponse(res, 200, pricings);
+  }).catch(function (err) {
+    sendJSONresponse(res, 404, err);
+  });
+};
+
+
+var getAuthor = function (req, res, callback) {
   console.log('Finding author with email ' + req.payload.email);
   if (req.payload.email) {
     User
       .findOne({ email: req.payload.email })
-      .exec(function(err, user) {
+      .exec(function (err, user) {
         if (!user) {
           console.log('user not found');
           sendJSONresponse(res, 404, {

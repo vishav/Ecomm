@@ -154,11 +154,15 @@ router.get('/uuiduser/:requesteduuid', ctrlUsers.getUserByUUID);
 
 router.post('/changepassword', ctrlUsers.changePassword);
 
-//added auth to secure the transactions
+// added auth to secure the transactions
 router.get('/transactions/:country/:state/:city/:model/:fromDate/:toDate', auth,
   ctrlTransaction.getTransactions);
 
-//added auth to download the transactions
+// added auth to download the transactions
 router.get('/download/:country/:state/:city/:model/:fromDate/:toDate', auth, ctrlTransaction.downloadTransactions);
+
+// added auth to save pricing
+// router.get('/savepricing/:countryPrice/:statePrice/:cityPrice/:minPrice', auth, ctrlTransaction.downloadTransactions);
+router.post('/savepricing', auth, pricing.savePricing);
 
 module.exports = router;

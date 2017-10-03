@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Http, RequestOptions, Headers } from '@angular/http';
 import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/map'
-import { Observable } from "rxjs";
-import { SearchQuery } from "../models/SearchQuery";
-import { OrderService } from "./order.service";
+import { Observable } from 'rxjs';
+import { SearchQuery } from '../models/SearchQuery';
+import { OrderService } from './order.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 
@@ -21,10 +21,10 @@ export class PaymentService {
 
   createpayment(data) {
     console.log(data);
-    var headers = new Headers({
+    const headers = new Headers({
       'Content-Type': 'application/json'
     });
-    let options = new RequestOptions({headers: headers});
+    const options = new RequestOptions({headers: headers});
     this.http.post('/api/create', JSON.stringify({
       expmon: data.expire_month,
       expyear: data.expire_year,
@@ -49,10 +49,10 @@ export class PaymentService {
         result => {
           console.log(result);
           this.paymentid = result.id;
-          if (result.state == "approved") {
+          if (result.state == 'approved') {
             this.orderservice.pushtoorders(this.paymentid, data.total);
           }
-          if (result.state == "failed") {
+          if (result.state == 'failed') {
 
           }
 
@@ -68,25 +68,26 @@ export class PaymentService {
   }
 
   getPricing() {
-    let headers = new Headers({'Accept': 'application/json'});
-    //headers.append('Authorization', 'Bearer '+ this.authservice.getToken());
-    let options = new RequestOptions({headers: headers});
-
-    //var user = this.authservice.currentUser();
-
+    const headers = new Headers({'Accept': 'application/json'});
+    const options = new RequestOptions({headers: headers});
     return this.http.get('/api/pricing/', options)
       .map(res => res.json());
   }
 
+  savePricing(data) {
+    const headers = new Headers({'Content-Type': 'application/json', 'Accept': 'application/json'});
+    headers.append('Authorization', 'Bearer ' + this.authservice.getToken());
+    const options = new RequestOptions({headers: headers});
 
-  async getPricings() {
-    let headers = new Headers({'Accept': 'application/json'});
-    //headers.append('Authorization', 'Bearer '+ this.authservice.getToken());
-    let options = new RequestOptions({headers: headers});
+    const parameters = {countryPrice: data.countryPrice, statePrice: data.statePrice, cityPrice: data.cityPrice, minPrice: data.minPrice};
+    return this.http.post('/api/savepricing', JSON.stringify({parameters: parameters}), options)
+      .map(res => {
+        if(res.status !== 200){
+          throw new Error('This request has failed ' + res.status);
+        }else {
+          return res.json()
+        }
+      });
 
-    //var user = this.authservice.currentUser();
-
-    const response = await this.http.get('/api/pricing/', options).toPromise();
-    return response.json();
   }
 }
