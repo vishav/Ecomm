@@ -29,7 +29,6 @@ import { MyDatePickerModule } from 'mydatepicker';
 import { InstructionsComponent } from './components/common/instructions.component';
 import { PricingComponent } from './components/common/pricing.component';
 import { InfoComponent } from './components/common/info.component';
-import { PricechangerComponent } from './components/admin/pricechanger/pricechanger.component';
 import { UsersService } from './services/users.service';
 import { ResetpasswordComponent } from './components/admin/resetpassword/resetpassword.component';
 import { ChangepasswordComponent } from './components/admin/changepassword/changepassword.component';
@@ -58,7 +57,6 @@ import { TransactionService } from './services/transaction.service';
     InstructionsComponent,
     PricingComponent,
     InfoComponent,
-    PricechangerComponent,
     ResetpasswordComponent,
     ChangepasswordComponent,
     ResetrequestComponent,

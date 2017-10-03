@@ -14,7 +14,6 @@ import { LogoutComponent } from './components/common/logout.component';
 import { InstructionsComponent } from './components/common/instructions.component';
 import { PricingComponent } from './components/common/pricing.component';
 import { InfoComponent } from './components/common/info.component';
-import { PricechangerComponent } from './components/admin/pricechanger/pricechanger.component';
 import { ResetpasswordComponent } from './components/admin/resetpassword/resetpassword.component';
 import { ChangepasswordComponent } from './components/admin/changepassword/changepassword.component';
 import { ResetrequestComponent } from './components/resetrequest/resetrequest.component';
@@ -88,10 +87,6 @@ export const routes: Routes = [
   {
     path: 'pricing',
     component: PricingComponent
-  },
-  {
-    path: 'pricechanger',
-    component: PricechangerComponent
   },
   {
     path: 'pwdreset',
