@@ -167,8 +167,8 @@ let getTransactionDetails = async function(req){
     lname = model.lname;
     email = model.useremail;
   }
-  let fromDate = req.params.fromDate;
-  let toDate = req.params.toDate;
+  let fromDate = null;
+  let toDate = null;
 
   let data = {};
   if (country !== 'Country') {
@@ -181,16 +181,27 @@ let getTransactionDetails = async function(req){
     data.city = city;
   }
 
+  if(req.params.fromDate && req.params.fromDate != "null"){
+    fromDate = req.params.fromDate;
+  }
+
+  if(req.params.toDate && req.params.toDate != "null"){
+    toDate = req.params.toDate;
+  }
+
   let userparameters = {};
   if (fname) {
+    fname = fname.trim();
     userparameters.fname = { $regex : new RegExp(fname, 'i') } ;
   }
   if (lname) {
+    lname = lname.trim();
     userparameters.lname = { $regex : new RegExp(lname, 'i') } ;
   }
 
   let orderparameters = {};
   if (email) {
+    email = email.trim();
     orderparameters.useremail = { $regex : new RegExp(email, 'i') } ;
   }
 
@@ -205,7 +216,14 @@ let getTransactionDetails = async function(req){
   }
 
   let details;
-  let query = Order.find(orderparameters).where('date').gt(fromDate).lt(toDate).where('cartItems').elemMatch(data).select('date total useremail cartItems').sort({ date: -1 });
+  let query = null;
+
+  if(fromDate && toDate){
+    query = Order.find(orderparameters).where('date').gt(fromDate).lt(toDate).where('cartItems').elemMatch(data).select('date total useremail cartItems').sort({ date: -1 });
+  }else{
+    query = Order.find(orderparameters).where('date').where('cartItems').elemMatch(data).select('date total useremail cartItems').sort({ date: -1 });
+  }
+
   await query.lean().exec(function (error, result) {
     details = result;
     if (error) {

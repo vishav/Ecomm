@@ -77,11 +77,7 @@
         <form class="form-inline text-center">
           <fieldset>
             <div>
-              <select [ngModel]="''" (ngModelChange)="yearselect = $event" name="yearselect" id="yearselect"
-                      class="form-control" placeholder="Select Year (YYYY)" [disabled]="yearentry">
-                <option value="" disabled selected>Select Year (YYYY)</option>
-                <option *ngFor="let y of years" [ngValue]="y" [selected]="y=='years[0]'">{{y}}</option>
-              </select>
+              <input [(ngModel)]="yearselect" name="yearselect" id="yearselect" placeholder="Select Year (YYYY)" class="form-control" type="text" [disabled]="yearentry">
               <button class="btn btn-primary form-control" (click)="showDate()">Alternate time</button>
             </div>
             <div *ngIf="showAdvDate" class="form-group">

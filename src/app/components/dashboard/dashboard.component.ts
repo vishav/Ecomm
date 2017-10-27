@@ -3,7 +3,6 @@ import { HselectionService } from '../../services/hselection.service'
 import { ShoppingcartService } from '../../services/shoppingcart.service'
 import { Router } from '@angular/router'
 import { IMyDpOptions, IMyDateModel } from 'mydatepicker';
-import { Global } from '../common/global';
 import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
@@ -34,7 +33,6 @@ export class DashboardComponent implements OnInit {
     yearSelector: true,
     dateFormat: 'mm/dd/yyyy'
   };
-  years: number[] = [];
   selectedcountry = 'Country';
   selectedstate = 'State';
   selectedcity = 'City';
@@ -105,9 +103,6 @@ export class DashboardComponent implements OnInit {
     this.hselectionService.getYear().subscribe(year => {
       this.currentyear = year.year;
     });
-    this.years = Global.getYears(0);
-    this.fromDate = new Date(this.years[this.years.length - 1]);
-    this.toDate = new Date();
   }
 
   countrySelect(country) {
@@ -174,5 +169,7 @@ export class DashboardComponent implements OnInit {
     this.tempmodel.fname = this.model.fname;
     this.tempmodel.lname = this.model.lname;
     this.tempmodel.useremail = this.model.useremail;
+    this.fromDate = null;
+    this.toDate = null;
   }
 }
