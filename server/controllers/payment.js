@@ -1,78 +1,104 @@
-var paypal = require('paypal-rest-sdk');
-var config = {};
+'use strict'
 
-var sendJSONresponse = function(res, status, content) {
+const mongoose = require('mongoose');
+const Refund = mongoose.model('Refund');
+
+var gateway;
+
+var sendJSONresponse = function (res, status, content) {
   res.status(status);
   res.json(content);
 };
 
-exports.init = function(c) {
-  config = c;
-  paypal.configure(c.api);
+exports.init = function () {
+  gateway = require('../../lib/gateway');
 };
 
-exports.create = function(req, res) {
+exports.create = function (req, res) {
 
   console.log(req.body);
-  var payment = {
-    intent: 'sale',
-    payer: {},
-    transactions: [
-      {
-        amount: {
-          currency: 'USD',
-          total: req.body.total
-        },
-        description: 'Payment towards holidays'
-      }
-    ]
+  let payment = {
+    amount: req.body.total,
+    descriptor: {
+      name: 'company*my production',
+      phone: '3125551212',
+      url: 'company.com'
+    },
+    options: {
+      submitForSettlement: true
+    }
   };
-  console.log(payment);
-  console.log(req.body.method);
-  var method = req.body.method;
+  // console.log(payment);
+  // console.log(req.body.method);
+  let method = req.body.method;
   if (method == 'credit') {
-    var funding_instruments = [
-      {
-        credit_card: {
-          type: req.body.type,
-          number: req.body.cnum,
-          expire_month: req.body.expmon,
-          expire_year: req.body.expyear,
-          first_name: req.body.fname,
-          last_name: req.body.lname,
-          cvv2: req.body.cvv2
-        }
-      }
-    ];
-    payment.payer.payment_method = 'credit_card';
-    payment.payer.funding_instruments = funding_instruments;
+    var name = req.body.fname + ' ' + req.body.lname;
+    const creditCard = {
+      cardholderName: name,
+      number: req.body.cnum,
+      expirationMonth: req.body.expmon,
+      expirationYear: req.body.expyear,
+      cvv: req.body.cvv2
+    };
+    payment.creditCard = creditCard;
+    payment.paymentMethodNonce = 'fake-valid-nonce';
     console.log(payment);
   }
-  paypal.payment.create(payment, function(error, payment) {
-    if (error) {
+  gateway.transaction.sale(payment, function (err, result) {
+    if (err){
       console.log('in error');
-      console.log(error);
+      console.log(result);
       sendJSONresponse(res, 400, {
         error: 'Invalid data'
       });
-    } else {
-      console.log(payment);
-      res.send(payment);
+    }else {
+      console.log(result);
+      res.send(result);
     }
   });
 };
 
-exports.get = function(req, res) {
-  console.log('paypal get');
-  paypal.payment.get(req.params.paymentid, function(error, payment) {
-    if (error) {
-      console.log(error);
+exports.refundTransaction = function (req, res) {
+
+  gateway.transaction.refund(req.body.paymentid, req.body.refundAmount, function (err, result) {
+    if (err){
+      console.log(err.type);
+      console.log(err.name);
+      console.log(err.message);
+      sendJSONresponse(res, 400, {
+        error: 'Some error'
+      });
+    }else {
+      if (result.success){
+        var refund = new Refund();
+        var today = new Date();
+
+        refund.paymentid = req.body.paymentid;
+        refund.total = req.body.refundAmount;
+        refund.date = today;
+        refund.save(function (err) {
+          if (err) {
+            console.log('error while saving refund to db: ' + err);
+          }
+        });
+      }
+      res.send(result);
+    }
+  });
+}
+/*
+exports.get = function (req, res) {
+  console.log('gateway get');
+  gateway.transaction.find(req.params.paymentid, function (err, result) {
+    if (result.success) {
+      res.send(result);
+      console.log(err);
     } else {
-      res.send(payment);
+      res.send(result);
     }
   });
 
-};
+};*/
 
 
 

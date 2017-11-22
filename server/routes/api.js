@@ -11,7 +11,7 @@ var auth = jwt({
 var ctrlAuth = require('../controllers/authentication');
 var ctrlHoliday = require('../controllers/holiday');
 var ctrlShoppingCart = require('../controllers/shoppingCart');
-var paypal = require('../controllers/payment');
+var gateway = require('../controllers/payment');
 var orders = require('../controllers/orders');
 var pricing = require('../controllers/pricing');
 var ctrlUsers = require('../controllers/users');
@@ -135,13 +135,13 @@ router.get('/shoppingcart/:useremail', auth, ctrlShoppingCart.getShoppingCart);
 router.post('/register', ctrlAuth.register);
 router.post('/login', ctrlAuth.login);
 
-router.post('/create', paypal.create);
+router.post('/create', gateway.create);
 
 router.post('/orders', auth, orders.saveOrder);
 
 router.get('/orders/:useremail', auth, orders.getOrders);
 
-router.get('/payment/:paymentid', paypal.get);
+router.get('/payment/:paymentid', gateway.get);
 
 router.get('/pricing/', pricing.getPricing);
 
@@ -164,5 +164,7 @@ router.get('/download/:country/:state/:city/:model/:fromDate/:toDate', auth, ctr
 // added auth to save pricing
 // router.get('/savepricing/:countryPrice/:statePrice/:cityPrice/:minPrice', auth, ctrlTransaction.downloadTransactions);
 router.post('/savepricing', auth, pricing.savePricing);
+
+router.post('/refund', auth, gateway.refundTransaction);
 
 module.exports = router;

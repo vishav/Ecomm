@@ -26,4 +26,19 @@ export class TransactionService {
     const parameter = data.country + '/' + data.state + '/' + data.city + '/' + model + '/' + data.fromDate + '/' + data.toDate;
     return this.http.get('/api/download/' + parameter, options);
   }
+
+  refundTransaction(data) {
+    const headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+    headers.append('Authorization', 'Bearer ' + this.authentication.getToken());
+    const options = new RequestOptions({headers: headers});
+    return this.http.post('/api/refund', JSON.stringify({
+      paymentid: data.paymentid,
+      refundAmount: data.refundAmount
+    }), options)
+      .map(res =>
+        res.json()
+      );
+  }
 }

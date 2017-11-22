@@ -20,7 +20,6 @@ export class PaymentService {
   }
 
   createpayment(data) {
-    console.log(data);
     const headers = new Headers({
       'Content-Type': 'application/json'
     });
@@ -41,21 +40,18 @@ export class PaymentService {
       ).catch((error, caught) => {
       if (error.status === 400) {
         console.log(error);
-
       }
       return Observable.throw(error);
     })
       .subscribe(
         result => {
-          console.log(result);
-          this.paymentid = result.id;
-          if (result.state == 'approved') {
+          if (!result.success) {
+            this.router.navigate(['/failure'])
+          }else if (result.success || result.transaction.status == 'submitted_for_settlement') {
+            this.paymentid = result.transaction.id;
             this.orderservice.pushtoorders(this.paymentid, data.total);
+            this.router.navigate(['/success'])
           }
-          if (result.state == 'failed') {
-
-          }
-
         }, error => {
           console.log(error);
           this.router.navigate(['/failure'])
@@ -88,6 +84,5 @@ export class PaymentService {
           return res.json()
         }
       });
-
   }
 }

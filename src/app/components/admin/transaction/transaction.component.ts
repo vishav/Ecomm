@@ -1,7 +1,8 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { TransactionService } from '../../../services/transaction.service';
 import { AuthenticationService } from '../../../services/authentication.service';
-import {saveAs } from 'file-saver';
+import { saveAs } from 'file-saver';
+import { isNullOrUndefined, isUndefined } from 'util';
 
 @Component({
   selector: 'app-transaction',
@@ -24,6 +25,11 @@ export class TransactionComponent implements OnChanges {
   norecordfoundsmessage = 'No records found.';
   isloggedin: boolean;
   index: any = null;
+  refundAmount: 0;
+  refundMessage = '';
+  refundError = false;
+  refundSuccess = false;
+  minimumrefundamountmessage = 'You can only refund amount greater than $.01 and  less than the total amount.';
 
   constructor(private authenticationService: AuthenticationService,
               private transactionservice: TransactionService) {
@@ -64,6 +70,7 @@ export class TransactionComponent implements OnChanges {
 
   setindex(index) {
     this.index = index;
+    this.resetMessages();
   }
 
   downloadTransactions() {
@@ -87,13 +94,55 @@ export class TransactionComponent implements OnChanges {
       );
   }
 
-  downloadFile(data){
+  downloadFile(data) {
     const date = new Date();
     let currenttime = (date.getMonth() + 1) + '-' + date.getDate() + '-' + date.getFullYear();
     currenttime += 'T' + date.getHours() + ':' + date.getMinutes();
     const filename = 'Transaction_Details_' + currenttime + '.xlsx';
-    const blob = new Blob([data._body], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const blob = new Blob([data._body], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
     saveAs(blob, filename);
     console.log('file downloaded');
+  }
+
+  refundTransaction(paymentid, total) {
+    let amount = total;
+    console.log('amount:', amount);
+    console.log('refundamount:', this.refundAmount);
+    if (this.refundAmount != null && this.refundAmount !== 0) {
+      amount = this.refundAmount;
+    }
+
+    if (amount < 0 || amount > total) {
+      this.refundMessage = this.minimumrefundamountmessage;
+      this.refundError = true;
+    } else {
+      this.resetMessages();
+      const data = {
+        'paymentid': paymentid,
+        'refundAmount': amount
+      };
+      console.log('refundamount:', amount);
+      this.transactionservice.refundTransaction(data).subscribe(result => {
+          if (result.success) {
+            this.refundMessage = 'Refund initiated successfully';
+            this.refundSuccess = true;
+          } else {
+            console.log(result.message);
+            this.refundMessage = result.message;
+            this.refundError = true;
+          }
+        },
+        error => {
+          console.log('Error while refunding transaction');
+          this.refundMessage = 'Error while initiating refund. Please try again later.';
+          this.refundError = true;
+        });
+    }
+  }
+
+  resetMessages(){
+    this.refundMessage = '';
+    this.refundError = false;
+    this.refundSuccess = false;
   }
 }

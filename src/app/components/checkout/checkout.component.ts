@@ -52,7 +52,7 @@ export class CheckoutComponent implements OnInit {
     for (var i = 0; i < this.cartitems.length; i++) {
       total += this.itemprice(this.cartitems[i]);
     }
-    return total;
+    return Math.round(total*100)/100;
   }
 
   daydiff(first, second) {

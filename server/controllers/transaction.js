@@ -3,41 +3,42 @@
 const mongoose = require('mongoose');
 const Order = mongoose.model('Order');
 const User = mongoose.model('User');
+const Refund = mongoose.model('Refund');
 
-let sendJSONresponse = function (res, status, content) {
+let sendJSONresponse = function(res, status, content) {
   res.status(status);
   res.json(content);
 };
 
-let getTransactions = function (req, res) {
+let getTransactions = function(req, res) {
   console.log("gettransactions called");
 
   let transactiondetails = null;
 
   transactiondetails = getTransactionDetails(req);
-  transactiondetails.then(function(value){
+  transactiondetails.then(function(value) {
     if (value.iserror) {
       sendJSONresponse(res, 404, value.errordetails);
     } else if (!value.results || value.results.length === 0) {
       sendJSONresponse(res, 200, []);
-    }else{
+    } else {
       sendJSONresponse(res, 200, value.results);
     }
   });
 };
 
-let downloadTransactions = function (req, res) {
+let downloadTransactions = function(req, res) {
 
   console.log("downloadtransactions called");
   let transactiondetails = null;
   transactiondetails = getTransactionDetails(req);
 
-  transactiondetails.then(function(value){
+  transactiondetails.then(function(value) {
     if (value.iserror) {
       sendJSONresponse(res, 404, value.errordetails);
     } else if (!value.results || value.results.length === 0) {
       sendJSONresponse(res, 200, []);
-    }else{
+    } else {
       let results = value.results;
 
       // Require library
@@ -51,7 +52,7 @@ let downloadTransactions = function (req, res) {
       console.log("file generation started");
 
       const options = {
-        sheetFormat:{
+        sheetFormat: {
           defaultColWidth: 20,
         }
       }
@@ -84,7 +85,7 @@ let downloadTransactions = function (req, res) {
 
       row++;
 
-      for(let i=0;i<results.length;i++){
+      for (let i = 0; i < results.length; i++) {
         const name = results[i].fname + " " + results[i].lname;
         row++;
         column = 1;
@@ -96,9 +97,9 @@ let downloadTransactions = function (req, res) {
         column++;
         ws.cell(row, column).number(results[i].total);
 
-        for(let j=0;j<results[i].cartItems.length;j++) {
+        for (let j = 0; j < results[i].cartItems.length; j++) {
           column++;
-          ws.cell(1, column).string('Item-' + (j+1)).style(headerstyle);
+          ws.cell(1, column).string('Item-' + (j + 1)).style(headerstyle);
 
           let orderdetails = "Country: " + results[i].cartItems[j].country;
           let range = "";
@@ -106,37 +107,37 @@ let downloadTransactions = function (req, res) {
           let state = results[i].cartItems[j].state;
           let city = results[i].cartItems[j].city;
 
-          if(state === "State") {
+          if (state === "State") {
             state = 'No state Selected';
           }
 
-          if(city === 'City') {
+          if (city === 'City') {
             city = 'No state Selected';
           }
 
-          if(results[i].cartItems[j].fromMonth){
-            range += results[i].cartItems[j].fromMonth   + "/";
+          if (results[i].cartItems[j].fromMonth) {
+            range += results[i].cartItems[j].fromMonth + "/";
           }
 
-          if(results[i].cartItems[j].fromDay){
+          if (results[i].cartItems[j].fromDay) {
             range += results[i].cartItems[j].fromDay + "/";
           }
 
-          if(results[i].cartItems[j].fromYear){
+          if (results[i].cartItems[j].fromYear) {
             range += results[i].cartItems[j].fromYear;
           }
 
           range += " - ";
 
-          if(results[i].cartItems[j].toMonth){
-            range += results[i].cartItems[j].toMonth   + "/";
+          if (results[i].cartItems[j].toMonth) {
+            range += results[i].cartItems[j].toMonth + "/";
           }
 
-          if(results[i].cartItems[j].toDay){
+          if (results[i].cartItems[j].toDay) {
             range += results[i].cartItems[j].toDay + "/";
           }
 
-          if(results[i].cartItems[j].toYear){
+          if (results[i].cartItems[j].toYear) {
             range += results[i].cartItems[j].toYear;
           }
 
@@ -145,13 +146,13 @@ let downloadTransactions = function (req, res) {
           ws.cell(row, column).string(orderdetails).style(mystyle);
         }
       }
-      wb.write(filename,res);
+      wb.write(filename, res);
       console.log("file generated");
     }
   });
 };
 
-let getTransactionDetails = async function(req){
+let getTransactionDetails = async function(req) {
 
   let transactiondetails = {};
   console.log("gettransactiondetails called");
@@ -181,33 +182,33 @@ let getTransactionDetails = async function(req){
     data.city = city;
   }
 
-  if(req.params.fromDate && req.params.fromDate != "null"){
+  if (req.params.fromDate && req.params.fromDate != "null") {
     fromDate = req.params.fromDate;
   }
 
-  if(req.params.toDate && req.params.toDate != "null"){
+  if (req.params.toDate && req.params.toDate != "null") {
     toDate = req.params.toDate;
   }
 
   let userparameters = {};
   if (fname) {
     fname = fname.trim();
-    userparameters.fname = { $regex : new RegExp(fname, 'i') } ;
+    userparameters.fname = { $regex: new RegExp(fname, 'i') };
   }
   if (lname) {
     lname = lname.trim();
-    userparameters.lname = { $regex : new RegExp(lname, 'i') } ;
+    userparameters.lname = { $regex: new RegExp(lname, 'i') };
   }
 
   let orderparameters = {};
   if (email) {
     email = email.trim();
-    orderparameters.useremail = { $regex : new RegExp(email, 'i') } ;
+    orderparameters.useremail = { $regex: new RegExp(email, 'i') };
   }
 
   let useremaillist = [];
   if (fname || lname) {
-    await User.find(userparameters).select('fname lname email').exec(function (error, result) {
+    await User.find(userparameters).select('fname lname email').exec(function(error, result) {
       for (let i = 0; i < result.length; i++) {
         useremaillist.push(result[i].email);
       }
@@ -218,13 +219,13 @@ let getTransactionDetails = async function(req){
   let details;
   let query = null;
 
-  if(fromDate && toDate){
-    query = Order.find(orderparameters).where('date').gt(fromDate).lt(toDate).where('cartItems').elemMatch(data).select('date total useremail cartItems').sort({ date: -1 });
-  }else{
-    query = Order.find(orderparameters).where('date').where('cartItems').elemMatch(data).select('date total useremail cartItems').sort({ date: -1 });
+  if (fromDate && toDate) {
+    query = Order.find(orderparameters).where('date').gt(fromDate).lt(toDate).where('cartItems').elemMatch(data).select('date total useremail cartItems paymentid').sort({ date: -1 });
+  } else {
+    query = Order.find(orderparameters).where('date').where('cartItems').elemMatch(data).select('date total useremail cartItems paymentid').sort({ date: -1 });
   }
 
-  await query.lean().exec(function (error, result) {
+  await query.lean().exec(function(error, result) {
     details = result;
     if (error) {
       transactiondetails.iserror = true;
@@ -236,23 +237,37 @@ let getTransactionDetails = async function(req){
     }
   });
 
-  if(transactiondetails.iserror || (transactiondetails.results && transactiondetails.results.length > 0 )){
+  if (transactiondetails.iserror || (transactiondetails.results && transactiondetails.results.length > 0 )) {
     console.log("returning", transactiondetails.iserror, transactiondetails.results);
     return transactiondetails;
   }
 
   let det = [];
-  for (let i = 0; i < details.length; i++){
+  for (let i = 0; i < details.length; i++) {
     if (userparameters !== {}) {
       let detailsquery = User.findOne({ email: details[i].useremail }).select('fname lname');
-      await detailsquery.exec(function (error, name) {
+      await detailsquery.exec(function(error, name) {
         if (name) {
           fname = name.fname;
           lname = name.lname;
         }
       });
     }
-    det.push({ fname:fname,lname:lname,date:details[i].date,useremail:details[i].useremail,cartItems:details[i].cartItems, total:details[i].total });
+    let refunds = [];
+    let refundsquery = Refund.find({ paymentid: details[i].paymentid }).select('date total paymentid');
+    await refundsquery.exec(function(error, result) {
+      refunds = result;
+    });
+    det.push({
+      fname: fname,
+      lname: lname,
+      date: details[i].date,
+      useremail: details[i].useremail,
+      cartItems: details[i].cartItems,
+      total: details[i].total,
+      paymentid: details[i].paymentid,
+      refunds: refunds
+    });
     fname = "";
     lname = "";
   }
@@ -265,5 +280,5 @@ let getTransactionDetails = async function(req){
 
 module.exports = {
   getTransactions: getTransactions,
-  downloadTransactions : downloadTransactions
+  downloadTransactions: downloadTransactions
 };
