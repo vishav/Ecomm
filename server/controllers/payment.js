@@ -86,7 +86,7 @@ exports.refundTransaction = function (req, res) {
     }
   });
 }
-/*
+
 exports.get = function (req, res) {
   console.log('gateway get');
   gateway.transaction.find(req.params.paymentid, function (err, result) {
@@ -98,7 +98,7 @@ exports.get = function (req, res) {
     }
   });
 
-};*/
+};
 
 
 

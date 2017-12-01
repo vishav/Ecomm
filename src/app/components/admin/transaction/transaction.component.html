@@ -61,9 +61,9 @@
             <tbody>
             <tr class="warning" *ngFor="let item of transactions[this.index]?.cartItems">
               <td *ngIf="item">{{item.country}}</td>
-              <td *ngIf="item.state != 'State'">{{transaction.state}}</td>
+              <td *ngIf="item.state != 'State'">{{item.state}}</td>
               <td *ngIf="item.state == 'State'">No state Selected</td>
-              <td *ngIf="item.city != 'City'">{{transaction.city}}</td>
+              <td *ngIf="item.city != 'City'">{{item.city}}</td>
               <td *ngIf="item.city == 'City'">No city selected</td>
               <td>{{item.fromMonth}}/{{item.fromDay}}/{{item.fromYear}}&nbsp;-&nbsp;{{item.toMonth}}/{{item.toDay}}/{{item.toYear}}</td>
               <td></td>
