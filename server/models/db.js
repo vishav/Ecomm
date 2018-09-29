@@ -1,6 +1,3 @@
-/**
- * Created by jacob on 2/24/17.
- */
 var mongoose = require('mongoose');
 
 var dbURI = 'mongodb://mean2necomm:meanecomm@ds147070.mlab.com:47070/mean2necomm';

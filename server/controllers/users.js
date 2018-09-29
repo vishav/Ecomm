@@ -1,8 +1,3 @@
-/**
- * Created by jacob on 8/6/2017.
- */
-
-
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 const uuidv1 = require('uuid/v1');

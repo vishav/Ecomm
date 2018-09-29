@@ -1,17 +1,4 @@
-/**
- * Created by jacob on 4/6/17.
- */
 var mongoose = require('mongoose');
-
-/*
- export interface SearchQuery{
- country:string,
- state:string,
- city:string,
- fromYear:Number,
- toYear:Number
- }
-* */
 
 var cartItemSchema = new mongoose.Schema({
   country: String,

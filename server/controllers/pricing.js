@@ -1,6 +1,4 @@
-/**
- * Created by jacob on 8/5/2017.
- */
+
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Pricing = mongoose.model('Pricing');
